@@ -1,0 +1,59 @@
+spring:
+  application:
+    name: pet-love-web
+  autoconfigure:
+    exclude:
+      - org.springframework.boot.security.autoconfigure.userdetails.UserDetailsServiceAutoConfiguration
+  datasource:
+    url: jdbc:h2:mem:petlove;MODE=PostgreSQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ""
+  jpa:
+    hibernate:
+      ddl-auto: none
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: true
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+  servlet:
+    multipart:
+      max-file-size: 12MB
+      max-request-size: 12MB
+  h2:
+    console:
+      enabled: true
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+
+logging:
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} [reqId=%X{requestId}] - %msg%n"
+
+app:
+  auth:
+    jwt-secret: "pet-love-web-phase0-secret-key-change-in-production"
+    access-token-seconds: 1800
+    refresh-token-seconds: 604800
+    otp-ttl-seconds: 300
+    otp-resend-seconds: 60
+    mock-otp-enabled: true
+  storage:
+    type: local
+    local-root: ./uploads
+    max-file-size-bytes: 10485760
+    base-url: /api/v1/files/content
+  bootstrap:
+    admin-username: admin
+    admin-password: Admin@123456
+    admin-display-name: 系统管理员
+
+server:
+  port: 8080
