@@ -54,7 +54,11 @@ public class GlobalExceptionHandler {
 
     private HttpStatus mapHttpStatus(ErrorCode errorCode) {
         return switch (errorCode) {
-            case INVALID_PARAM -> HttpStatus.BAD_REQUEST;
+            case INVALID_PARAM,
+                 VERIFICATION_STATUS_INVALID,
+                 VERIFICATION_FILE_INVALID,
+                 VERIFICATION_ALREADY_APPROVED,
+                 VERIFICATION_REAL_NAME_REQUIRED -> HttpStatus.BAD_REQUEST;
             case UNAUTHORIZED,
                  AUTH_OTP_INVALID,
                  AUTH_OTP_EXPIRED,
@@ -64,8 +68,12 @@ public class GlobalExceptionHandler {
                  USER_DISABLED,
                  USER_BANNED,
                  AUTH_OTP_TOO_FREQUENT,
-                 STATE_TRANSITION_INVALID -> HttpStatus.FORBIDDEN;
-            case NOT_FOUND -> HttpStatus.NOT_FOUND;
+                 STATE_TRANSITION_INVALID,
+                 VERIFICATION_FILE_NOT_OWNED,
+                 VERIFICATION_SUBMIT_NOT_ALLOWED,
+                 VERIFICATION_REVIEW_NOT_ALLOWED -> HttpStatus.FORBIDDEN;
+            case NOT_FOUND,
+                 VERIFICATION_NOT_FOUND -> HttpStatus.NOT_FOUND;
             default -> HttpStatus.BAD_REQUEST;
         };
     }

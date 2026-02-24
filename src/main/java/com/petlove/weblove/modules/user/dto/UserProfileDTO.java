@@ -6,6 +6,8 @@ public record UserProfileDTO(
     String avatarUrl,
     String cityCode,
     String cityName,
-    String bio
+    String bio,
+    boolean realNameVerified,
+    boolean providerVerified
 ) {
 }

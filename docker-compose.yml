@@ -1,19 +1,22 @@
-version: "3.9"
-
 services:
-  postgres:
-    image: postgres:16
-    container_name: petlove-postgres
+  mysql:
+    image: mysql:8.4
+    container_name: petlove-mysql
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_0900_ai_ci
+      - --default-time-zone=+00:00
     environment:
-      POSTGRES_DB: ${DB_NAME:-petlove}
-      POSTGRES_USER: ${DB_USERNAME:-petlove}
-      POSTGRES_PASSWORD: ${DB_PASSWORD:-petlove}
+      MYSQL_DATABASE: ${DB_NAME:-pet_platform}
+      MYSQL_USER: ${DB_USERNAME:-pet}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-pet_dev_password}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-root_dev_password}
     ports:
-      - "${DB_PORT:-5432}:5432"
+      - "${DB_PORT:-3307}:3306"
     volumes:
-      - petlove_pg_data:/var/lib/postgresql/data
+      - petlove_mysql_data:/var/lib/mysql
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-petlove} -d ${DB_NAME:-petlove}"]
+      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -uroot -p$${MYSQL_ROOT_PASSWORD} --silent"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -32,5 +35,5 @@ services:
       - petlove_minio_data:/data
 
 volumes:
-  petlove_pg_data:
+  petlove_mysql_data:
   petlove_minio_data:

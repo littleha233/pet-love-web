@@ -232,19 +232,27 @@ public class AuthService {
     }
 
     private CurrentUserDTO buildCurrentUserDto(User user, UserProfile profile) {
+        List<String> roles = new java.util.ArrayList<>();
+        roles.add("USER");
+        if (profile.isProviderVerified()) {
+            roles.add("PROVIDER");
+        }
+
         return new CurrentUserDTO(
             user.getId(),
             MaskUtil.maskMobile(user.getMobile()),
             MaskUtil.maskEmail(user.getEmail()),
             user.getStatus().name(),
-            List.of("USER"),
+            roles,
             new UserProfileDTO(
                 profile.getUserId(),
                 profile.getNickname(),
                 profile.getAvatarUrl(),
                 profile.getCityCode(),
                 profile.getCityName(),
-                profile.getBio()
+                profile.getBio(),
+                profile.isRealNameVerified(),
+                profile.isProviderVerified()
             )
         );
     }

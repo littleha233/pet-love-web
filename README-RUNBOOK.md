@@ -2,23 +2,21 @@
 
 ## 当前项目进展
 
-- 后端：已完成 `dev-phase-1.md` 的 Phase 0 基础设施。
-- 前端：已完成 `web-user` 静态页面（首页、领养列表、服务页），目前使用 mock 数据。
-- 业务状态：领养/喂养/救助业务接口尚未开始开发，当前重点是底座能力可运行。
+- 后端：已完成 `dev-phase-1.md`（Phase 0）+ `dev-phase-2.md`（Phase 2 后端）
+- 前端：`web-user` 仍为静态页面（首页、领养列表、服务页，mock 数据）
+- 业务状态：领养/喂养/救助业务接口尚未开始开发
 
-后端已可用能力：
+后端新增可用能力（Phase 2）：
 
-- 用户 OTP 登录、Token 刷新、登出、当前用户信息
-- 用户资料查询与更新
-- 文件上传与文件访问
-- 城市元数据、健康检查
-- Admin 登录、用户状态管理、审计日志
+- 用户实名认证提交/查询
+- 用户服务者认证提交/查询
+- Admin 认证审核（通过/驳回）
+- 审核动作审计日志
+- 审核通过后 `/api/v1/auth/me` 返回 `PROVIDER` 角色
 
 ## 启动顺序（推荐）
 
-推荐顺序：
-
-1. 启动基础依赖（PostgreSQL、MinIO）
+1. 启动基础依赖（MySQL、MinIO）
 2. 启动后端（Spring Boot）
 3. 启动前端（web-user）
 
@@ -41,7 +39,7 @@ docker compose ps
 
 默认端口：
 
-- PostgreSQL: `localhost:5432`
+- MySQL: `localhost:3307`（避免与本机已有 MySQL 冲突）
 - MinIO API: `localhost:9000`
 - MinIO Console: `http://localhost:9001`
 
@@ -49,7 +47,7 @@ docker compose ps
 
 ### 方式 A：完整本地联调（推荐）
 
-使用 PostgreSQL：
+使用 MySQL：
 
 ```bash
 ./mvnw spring-boot:run -Dspring-boot.run.profiles=local
@@ -67,6 +65,7 @@ docker compose ps
 
 - Swagger: `http://localhost:8080/swagger-ui/index.html`
 - 健康检查: `http://localhost:8080/api/v1/system/health`
+- 就绪检查: `http://localhost:8080/api/v1/system/ready`
 
 ## 启动前端
 
@@ -82,8 +81,6 @@ npm run dev
 
 - `http://localhost:5173`
 
-说明：当前前端页面是静态 mock，不依赖后端接口即可浏览。
-
 ## 当前可用账号
 
 后端启动时会自动初始化默认管理员账号：
@@ -91,35 +88,71 @@ npm run dev
 - username: `admin`
 - password: `Admin@123456`
 
-## 快速验证后端接口
+## 快速验证（Phase 2 最小链路）
 
-在项目根目录或任意终端执行：
-
-```bash
-curl -s http://localhost:8080/api/v1/system/health
-```
-
-```bash
-curl -s http://localhost:8080/api/v1/meta/cities
-```
-
-发送 OTP（dev 环境会返回 `mockCode`）：
+### 1) 用户登录（拿 Token）
 
 ```bash
 curl -s -X POST http://localhost:8080/api/v1/auth/otp/send \
   -H 'Content-Type: application/json' \
-  -d '{"channel":"MOBILE","target":"13800138000","purpose":"LOGIN"}'
+  -d '{"channel":"MOBILE","target":"13900139000","purpose":"LOGIN"}'
 ```
+
+返回里会有 `mockCode`（dev 环境），再登录：
+
+```bash
+curl -s -X POST http://localhost:8080/api/v1/auth/login/otp \
+  -H 'Content-Type: application/json' \
+  -d '{"channel":"MOBILE","target":"13900139000","otpCode":"<mockCode>","clientType":"WEB"}'
+```
+
+### 2) 提交实名认证
+
+先上传证件文件（`bizType=ID_CARD`），再调用：
+
+```bash
+curl -s -X POST http://localhost:8080/api/v1/verifications/real-name/submit \
+  -H 'Authorization: Bearer <userAccessToken>' \
+  -H 'Content-Type: application/json' \
+  -d '{"realName":"张三","idNo":"310101199901011234","idFrontFileId":1,"idBackFileId":2,"agreeDeclaration":true}'
+```
+
+### 3) Admin 审核
+
+```bash
+curl -s -X POST http://localhost:8080/api/admin/v1/auth/login \
+  -H 'Content-Type: application/json' \
+  -d '{"username":"admin","password":"Admin@123456"}'
+```
+
+拿到 `adminAccessToken` 后：
+
+```bash
+curl -s "http://localhost:8080/api/admin/v1/verifications?verificationType=REAL_NAME&status=PENDING" \
+  -H 'Authorization: Bearer <adminAccessToken>'
+```
+
+```bash
+curl -s -X POST http://localhost:8080/api/admin/v1/verifications/<verificationId>/approve \
+  -H 'Authorization: Bearer <adminAccessToken>' \
+  -H 'Content-Type: application/json' \
+  -d '{"remark":"ok"}'
+```
+
+### 4) 角色回显
+
+```bash
+curl -s http://localhost:8080/api/v1/auth/me \
+  -H 'Authorization: Bearer <userAccessToken>'
+```
+
+服务者认证审核通过后，`roles` 应包含 `PROVIDER`。
 
 ## 停止服务
 
-停止前端：
+停止前端：前端终端按 `Ctrl+C`
 
-- 在前端终端按 `Ctrl+C`
-
-停止后端：
-
-- 在后端终端按 `Ctrl+C`
+停止后端：后端终端按 `Ctrl+C`
 
 停止 Docker 依赖：
 
@@ -134,16 +167,12 @@ docker compose down
 - 说明端口被占用。
 - 处理：停掉占用进程，或改 `server.port`。
 
-2. 前端 `npm install` 卡住
-
-- 重试：`npm install --no-audit --no-fund`
-
-3. Swagger 能打开但接口 401
+2. Swagger 能打开但接口 401
 
 - 受保护接口需要 Bearer Token。
 - 先调用 OTP 登录拿 `accessToken`，再带 `Authorization: Bearer <token>`。
 
-4. 数据库连接失败（local profile）
+3. 数据库连接失败（local profile）
 
-- 确认 `docker compose ps` 中 postgres 是 healthy。
+- 确认 `docker compose ps` 中 mysql 是 healthy。
 - 检查 `.env` 中 `DB_*` 是否与 `application-local.yml` 一致。

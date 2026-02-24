@@ -83,7 +83,9 @@ public class UserProfileService {
             profile.getAvatarUrl(),
             profile.getCityCode(),
             profile.getCityName(),
-            profile.getBio()
+            profile.getBio(),
+            profile.isRealNameVerified(),
+            profile.isProviderVerified()
         );
     }
 }

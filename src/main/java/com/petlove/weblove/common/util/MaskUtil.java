@@ -23,4 +23,15 @@ public final class MaskUtil {
         }
         return name.substring(0, 2) + "***@" + parts[1];
     }
+
+    public static String maskIdNo(String idNo) {
+        if (idNo == null || idNo.isBlank()) {
+            return idNo;
+        }
+        String normalized = idNo.trim();
+        if (normalized.length() <= 4) {
+            return "****";
+        }
+        return normalized.substring(0, 2) + "************" + normalized.substring(normalized.length() - 2);
+    }
 }

@@ -31,6 +31,12 @@ public class UserProfile extends BaseEntity {
 
     private String bio;
 
+    @Column(name = "is_real_name_verified", nullable = false)
+    private boolean realNameVerified;
+
+    @Column(name = "is_provider_verified", nullable = false)
+    private boolean providerVerified;
+
     public Long getId() {
         return id;
     }
@@ -89,5 +95,21 @@ public class UserProfile extends BaseEntity {
 
     public void setBio(String bio) {
         this.bio = bio;
+    }
+
+    public boolean isRealNameVerified() {
+        return realNameVerified;
+    }
+
+    public void setRealNameVerified(boolean realNameVerified) {
+        this.realNameVerified = realNameVerified;
+    }
+
+    public boolean isProviderVerified() {
+        return providerVerified;
+    }
+
+    public void setProviderVerified(boolean providerVerified) {
+        this.providerVerified = providerVerified;
     }
 }
