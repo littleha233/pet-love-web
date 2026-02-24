@@ -740,6 +740,46 @@ a {
   background: rgba(71, 84, 103, 0.14);
 }
 
+.feed-status-pending {
+  color: #8a5b18;
+  background: rgba(168, 112, 27, 0.18);
+}
+
+.feed-status-rejected {
+  color: #b42318;
+  background: rgba(180, 35, 24, 0.14);
+}
+
+.feed-status-confirmed {
+  color: #475467;
+  background: rgba(71, 84, 103, 0.14);
+}
+
+.feed-status-active {
+  color: #175cd3;
+  background: rgba(23, 92, 211, 0.14);
+}
+
+.feed-status-waiting {
+  color: #7a3e0f;
+  background: rgba(199, 121, 54, 0.15);
+}
+
+.feed-status-completed {
+  color: #027a48;
+  background: rgba(2, 122, 72, 0.14);
+}
+
+.feed-status-cancelled {
+  color: #475467;
+  background: rgba(71, 84, 103, 0.14);
+}
+
+.feed-status-default {
+  color: #475467;
+  background: rgba(71, 84, 103, 0.15);
+}
+
 .adoption-post-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -893,6 +933,96 @@ a {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+}
+
+.feeding-provider-card {
+  padding: 14px;
+  display: grid;
+  gap: 10px;
+}
+
+.feeding-provider-top {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.feeding-provider-top h3 {
+  margin: 0;
+}
+
+.feeding-avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--line);
+}
+
+.feeding-avatar-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f2f4f7;
+  color: #667085;
+  font-size: 13px;
+}
+
+.visit-editor {
+  margin-top: 10px;
+  padding: 12px;
+}
+
+.inline-check {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+}
+
+.modal-mask {
+  position: fixed;
+  inset: 0;
+  background: rgba(16, 24, 40, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  padding: 12px;
+}
+
+.modal-card {
+  width: min(560px, 100%);
+  padding: 16px;
+}
+
+.provider-preview {
+  margin-bottom: 12px;
+}
+
+.pet-select-grid {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.pet-select-item {
+  border: 1px solid var(--line);
+  background: #fff;
+  border-radius: 12px;
+  padding: 10px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.pet-select-item-active {
+  border-color: #cb7c53;
+  background: #fdf5ef;
+}
+
+.pet-select-name {
+  margin: 0;
+  font-weight: 700;
 }
 
 @media (max-width: 1024px) {

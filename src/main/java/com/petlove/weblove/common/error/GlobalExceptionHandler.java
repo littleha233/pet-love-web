@@ -62,7 +62,17 @@ public class GlobalExceptionHandler {
                  ADOPTION_REAL_NAME_REQUIRED,
                  ADOPTION_POST_STATUS_INVALID,
                  ADOPTION_POST_FILE_INVALID,
-                 ADOPTION_APPLICATION_DUPLICATE -> HttpStatus.BAD_REQUEST;
+                 ADOPTION_APPLICATION_DUPLICATE,
+                 FEEDING_REAL_NAME_REQUIRED,
+                 FEEDING_PROVIDER_PROFILE_STATUS_INVALID,
+                 FEEDING_ORDER_STATUS_INVALID,
+                 FEEDING_ORDER_CANNOT_CANCEL,
+                 FEEDING_ORDER_CANNOT_CONFIRM,
+                 FEEDING_ORDER_PET_INVALID,
+                 FEEDING_REVIEW_ALREADY_EXISTS,
+                 FEEDING_REVIEW_NOT_ALLOWED,
+                 FEEDING_VISIT_STATUS_INVALID,
+                 FEEDING_VISIT_FILE_INVALID -> HttpStatus.BAD_REQUEST;
             case UNAUTHORIZED,
                  AUTH_OTP_INVALID,
                  AUTH_OTP_EXPIRED,
@@ -82,11 +92,20 @@ public class GlobalExceptionHandler {
                  ADOPTION_APPLICATION_NOT_ALLOWED,
                  ADOPTION_APPLICATION_NOT_OWNER,
                  ADOPTION_APPLICATION_HANDLE_NOT_ALLOWED,
-                 ADOPTION_CANNOT_APPLY_OWN_POST -> HttpStatus.FORBIDDEN;
+                 ADOPTION_CANNOT_APPLY_OWN_POST,
+                 FEEDING_PROVIDER_VERIFICATION_REQUIRED,
+                 FEEDING_ORDER_NOT_OWNER,
+                 FEEDING_ORDER_NOT_PROVIDER,
+                 FEEDING_ORDER_PET_NOT_OWNED,
+                 FEEDING_VISIT_NOT_PROVIDER,
+                 FEEDING_VISIT_FILE_NOT_OWNED -> HttpStatus.FORBIDDEN;
             case NOT_FOUND,
                  VERIFICATION_NOT_FOUND,
                  ADOPTION_POST_NOT_FOUND,
-                 ADOPTION_APPLICATION_NOT_FOUND -> HttpStatus.NOT_FOUND;
+                 ADOPTION_APPLICATION_NOT_FOUND,
+                 FEEDING_PROVIDER_PROFILE_NOT_FOUND,
+                 FEEDING_ORDER_NOT_FOUND,
+                 FEEDING_VISIT_NOT_FOUND -> HttpStatus.NOT_FOUND;
             default -> HttpStatus.BAD_REQUEST;
         };
     }

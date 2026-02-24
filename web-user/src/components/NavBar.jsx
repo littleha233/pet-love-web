@@ -3,6 +3,11 @@ import { NavLink } from "react-router-dom";
 const links = [
   { to: "/", label: "首页" },
   { to: "/adoption", label: "领养列表" },
+  { to: "/feeding/providers", label: "喂养服务者" },
+  { to: "/feeding/orders/new", label: "发起喂养单" },
+  { to: "/me/feeding/orders", label: "我的喂养单" },
+  { to: "/provider/feeding/profile", label: "服务者中心" },
+  { to: "/provider/feeding/orders", label: "我的接单" },
   { to: "/adoption/rehome/new", label: "发布送养" },
   { to: "/me/adoption/posts", label: "我的发布" },
   { to: "/me/adoption/applications", label: "我的申请" },

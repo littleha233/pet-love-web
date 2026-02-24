@@ -133,6 +133,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 return false;
             }
         }
+        if (path.equals("/api/v1/feeding/providers")) {
+            return false;
+        }
+        if (path.startsWith("/api/v1/feeding/providers/")) {
+            String suffix = path.substring("/api/v1/feeding/providers/".length());
+            if (!suffix.isBlank() && !suffix.contains("/")) {
+                return false;
+            }
+        }
         return true;
     }
 
