@@ -118,7 +118,22 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private boolean isUserProtectedPath(String path) {
-        return !(path.startsWith("/api/v1/auth/") || path.startsWith("/api/v1/system/") || path.startsWith("/api/v1/meta/"));
+        if (path.startsWith("/api/v1/auth/")
+            || path.startsWith("/api/v1/system/")
+            || path.startsWith("/api/v1/meta/")
+            || path.startsWith("/api/v1/files/content/")) {
+            return false;
+        }
+        if (path.equals("/api/v1/adoptions/posts")) {
+            return false;
+        }
+        if (path.startsWith("/api/v1/adoptions/posts/")) {
+            String suffix = path.substring("/api/v1/adoptions/posts/".length());
+            if (!suffix.isBlank() && !suffix.contains("/")) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private void writeError(HttpServletResponse response,

@@ -1,4 +1,4 @@
-# PetLove Web - Phase 0 + Phase 2 Backend
+# PetLove Web - Phase 0 + Phase 2 + Phase 3 Backend
 
 运行与联调步骤请看：[README-RUNBOOK.md](README-RUNBOOK.md)
 
@@ -8,6 +8,7 @@
 
 - `dev-phase-1.md` 的 Phase 0 基础设施
 - `dev-phase-2.md` 的 Phase 2 用户认证模块（后端）
+- `dev-phase-3.md` 的 Phase 3 领养/送养模块（后端）
 
 已实现能力：
 
@@ -21,7 +22,10 @@
 - 用户服务者认证提交/查询
 - Admin 认证审核（通过/驳回）+ 审计日志
 - 审核通过后角色生效（`PROVIDER`）
-- Flyway 数据库迁移（V1~V5）
+- 送养帖发布/列表/详情/我的发布/重提/关闭
+- 领养申请提交/我的申请/帖子申请列表/处理/撤回
+- Admin 送养帖审核（通过/驳回/下架）+ 审计日志
+- Flyway 数据库迁移（V1~V8）
 - OpenAPI 文档（Swagger UI）
 
 ## 2. 模块结构（后端）
@@ -35,6 +39,7 @@
 - `modules/user`：profile + Admin 用户管理
 - `modules/file`：上传、文件元信息、文件内容读取
 - `modules/verification`：实名认证/服务者认证 + Admin 审核
+- `modules/adoption`：送养帖 + 领养申请 + Admin 审核
 - `modules/admin`：Admin 鉴权、菜单、审计日志
 - `modules/system`：health/ready/cities、启动初始化
 
@@ -47,12 +52,19 @@ Flyway 迁移脚本：`src/main/resources/db/migration`
 - `V3__add_indexes.sql`
 - `V4__create_user_verifications.sql`
 - `V5__alter_user_profiles_add_verification_flags.sql`
+- `V6__create_pets_and_pet_media.sql`
+- `V7__create_adoption_posts.sql`
+- `V8__create_adoption_applications.sql`
 
 当前核心表：
 
 - `users`
 - `user_profiles`
 - `user_verifications`
+- `pets`
+- `pet_media`
+- `adoption_posts`
+- `adoption_applications`
 - `auth_otp_codes`
 - `auth_refresh_tokens`
 - `file_objects`
@@ -78,13 +90,13 @@ docker compose up -d
 ### 4.2 启动后端
 
 ```bash
-./mvnw spring-boot:run -Dspring-boot.run.profiles=local
+./mvnw spring-boot:run
 ```
 
 备注：
 
-- 默认配置文件为 `application.yml`（H2 内存库，MySQL 兼容模式）
-- `local` profile 使用 MySQL（建议联调时使用）
+- 默认配置文件为 `application.yml`，直接使用 MySQL
+- 若使用其他环境，按需覆盖 `DB_*` 环境变量
 
 ## 5. 测试
 
@@ -126,6 +138,17 @@ docker compose up -d
 - `GET /api/v1/verifications/{type}` (`REAL_NAME` / `PROVIDER`)
 - `POST /api/v1/verifications/real-name/submit`
 - `POST /api/v1/verifications/provider/submit`
+- `GET /api/v1/adoptions/posts`（公开）
+- `GET /api/v1/adoptions/posts/{postId}`（公开）
+- `POST /api/v1/adoptions/posts`
+- `GET /api/v1/adoptions/my/posts`
+- `POST /api/v1/adoptions/posts/{postId}/resubmit`
+- `POST /api/v1/adoptions/posts/{postId}/close`
+- `POST /api/v1/adoptions/posts/{postId}/applications`
+- `GET /api/v1/adoptions/my/applications`
+- `GET /api/v1/adoptions/posts/{postId}/applications`
+- `POST /api/v1/adoptions/applications/{applicationId}/handle`
+- `POST /api/v1/adoptions/applications/{applicationId}/withdraw`
 
 ### Admin
 
@@ -141,6 +164,11 @@ docker compose up -d
 - `GET /api/admin/v1/verifications/{verificationId}`
 - `POST /api/admin/v1/verifications/{verificationId}/approve`
 - `POST /api/admin/v1/verifications/{verificationId}/reject`
+- `GET /api/admin/v1/adoptions/posts`
+- `GET /api/admin/v1/adoptions/posts/{postId}`
+- `POST /api/admin/v1/adoptions/posts/{postId}/approve`
+- `POST /api/admin/v1/adoptions/posts/{postId}/reject`
+- `POST /api/admin/v1/adoptions/posts/{postId}/offline`
 
 ## 9. 状态机与关键规则
 
@@ -149,6 +177,8 @@ docker compose up -d
 - Refresh Token 状态：`ACTIVE / ROTATED / REVOKED / EXPIRED`
 - 文件状态：`UPLOADING / READY / FAILED / DELETED`
 - 认证状态：`PENDING / APPROVED / REJECTED`
+- 送养帖状态：`PENDING_REVIEW / PUBLISHED / REJECTED / CLOSED / OFFLINE`
+- 领养申请状态：`SUBMITTED / ACCEPTED / REJECTED / WITHDRAWN`
 
 关键规则：
 
@@ -158,9 +188,10 @@ docker compose up -d
 - 驳回后可重提，`submit_version + 1`
 - 身份证号仅存 `hash + masked`，不落明文
 - Admin 审核动作必须写入 `admin_audit_logs`
+- 发布送养帖必须实名认证通过
+- 同一用户对同一帖子不可重复申请
+- 接受申请后帖子自动 `CLOSED`，并自动拒绝同帖其他待处理申请
 
 ## 10. 已知说明
 
 - 文件存储当前为本地磁盘（`app.storage.local-root`），MinIO 容器已预置。
-- 当前仓库前端仍以 `web-user` 静态页面为主；Phase 2 前端页面与独立 Admin Console 尚未在本仓库落地。
-- 领养/喂养/救助业务流程仍未开始开发。

@@ -115,6 +115,7 @@ public class AdminAuthService {
         menus.add(new AdminMenuItemDTO("dashboard", "Dashboard", "/dashboard"));
         menus.add(new AdminMenuItemDTO("users", "Users", "/users"));
         menus.add(new AdminMenuItemDTO("verifications", "Verifications", "/verifications"));
+        menus.add(new AdminMenuItemDTO("adoptions", "Adoptions", "/adoptions/posts"));
         menus.add(new AdminMenuItemDTO("auditLogs", "Audit Logs", "/audit-logs"));
 
         if (adminUser.getRole().name().equals("SUPER_ADMIN")) {

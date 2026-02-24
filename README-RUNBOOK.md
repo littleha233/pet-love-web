@@ -2,25 +2,26 @@
 
 ## 当前项目进展
 
-- 后端：已完成 `dev-phase-1.md`（Phase 0）+ `dev-phase-2.md`（Phase 2 后端）
+- 后端：已完成 `dev-phase-1.md`（Phase 0）+ `dev-phase-2.md`（Phase 2 后端）+ `dev-phase-3.md`（Phase 3 后端）
 - 前端：`web-user` 仍为静态页面（首页、领养列表、服务页，mock 数据）
-- 业务状态：领养/喂养/救助业务接口尚未开始开发
+- 业务状态：Phase 3 领养/送养后端闭环已完成（送养帖 + 领养申请 + Admin 审核）
 
-后端新增可用能力（Phase 2）：
+后端新增可用能力（Phase 2 + Phase 3）：
 
 - 用户实名认证提交/查询
 - 用户服务者认证提交/查询
 - Admin 认证审核（通过/驳回）
 - 审核动作审计日志
 - 审核通过后 `/api/v1/auth/me` 返回 `PROVIDER` 角色
+- 送养帖发布/列表/详情/我的发布/重提/关闭
+- 领养申请提交/我的申请/帖子申请列表/处理/撤回
+- Admin 送养帖审核（通过/驳回/下架）
 
 ## 启动顺序（推荐）
 
 1. 启动基础依赖（MySQL、MinIO）
 2. 启动后端（Spring Boot）
 3. 启动前端（web-user）
-
-如果只是快速体验接口，也可以跳过第 1 步，后端默认会用 H2 内存库启动。
 
 ## 一键准备（首次）
 
@@ -44,18 +45,6 @@ docker compose ps
 - MinIO Console: `http://localhost:9001`
 
 ## 启动后端
-
-### 方式 A：完整本地联调（推荐）
-
-使用 MySQL：
-
-```bash
-./mvnw spring-boot:run -Dspring-boot.run.profiles=local
-```
-
-### 方式 B：快速启动（不依赖 Docker）
-
-使用 H2 内存数据库：
 
 ```bash
 ./mvnw spring-boot:run
@@ -88,7 +77,7 @@ npm run dev
 - username: `admin`
 - password: `Admin@123456`
 
-## 快速验证（Phase 2 最小链路）
+## 快速验证（Phase 3 最小链路）
 
 ### 1) 用户登录（拿 Token）
 
@@ -148,6 +137,62 @@ curl -s http://localhost:8080/api/v1/auth/me \
 
 服务者认证审核通过后，`roles` 应包含 `PROVIDER`。
 
+### 5) 发布送养帖（需实名认证通过）
+
+先上传 1 张宠物图片（`bizType=PET_MEDIA`），拿到 `fileId`，再调用：
+
+```bash
+curl -s -X POST http://localhost:8080/api/v1/adoptions/posts \
+  -H 'Authorization: Bearer <userAccessToken>' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "title":"给小橘找新家",
+    "content":"因搬家无法继续照顾，希望找到稳定家庭。",
+    "cityCode":"310100",
+    "cityName":"上海",
+    "petType":"CAT",
+    "petName":"小橘",
+    "petGender":"MALE",
+    "ageMonths":18,
+    "temperamentTags":["亲人","活泼"],
+    "petImageFileIds":[1]
+  }'
+```
+
+### 6) Admin 审核送养帖
+
+```bash
+curl -s "http://localhost:8080/api/admin/v1/adoptions/posts?status=PENDING_REVIEW" \
+  -H 'Authorization: Bearer <adminAccessToken>'
+```
+
+```bash
+curl -s -X POST http://localhost:8080/api/admin/v1/adoptions/posts/<postId>/approve \
+  -H 'Authorization: Bearer <adminAccessToken>' \
+  -H 'Content-Type: application/json' \
+  -d '{"remark":"信息完整，审核通过"}'
+```
+
+### 7) 提交领养申请并处理
+
+```bash
+curl -s -X POST http://localhost:8080/api/v1/adoptions/posts/<postId>/applications \
+  -H 'Authorization: Bearer <anotherUserAccessToken>' \
+  -H 'Content-Type: application/json' \
+  -d '{"message":"有稳定居住环境，愿意长期负责。"}'
+```
+
+发布者处理申请：
+
+```bash
+curl -s -X POST http://localhost:8080/api/v1/adoptions/applications/<applicationId>/handle \
+  -H 'Authorization: Bearer <publisherUserAccessToken>' \
+  -H 'Content-Type: application/json' \
+  -d '{"action":"ACCEPT","decisionNote":"沟通顺畅，同意领养"}'
+```
+
+处理成功后，帖子状态应自动变为 `CLOSED`。
+
 ## 停止服务
 
 停止前端：前端终端按 `Ctrl+C`
@@ -172,7 +217,7 @@ docker compose down
 - 受保护接口需要 Bearer Token。
 - 先调用 OTP 登录拿 `accessToken`，再带 `Authorization: Bearer <token>`。
 
-3. 数据库连接失败（local profile）
+3. 数据库连接失败
 
 - 确认 `docker compose ps` 中 mysql 是 healthy。
-- 检查 `.env` 中 `DB_*` 是否与 `application-local.yml` 一致。
+- 检查 `.env` 中 `DB_*` 与 `application.yml` 中占位符是否一致。

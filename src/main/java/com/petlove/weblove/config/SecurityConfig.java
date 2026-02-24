@@ -5,6 +5,7 @@ import com.petlove.weblove.security.JsonAuthenticationEntryPoint;
 import com.petlove.weblove.security.JwtAuthenticationFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -42,6 +43,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html", "/error").permitAll()
                 .requestMatchers("/api/v1/auth/**", "/api/v1/system/**", "/api/v1/meta/**", "/api/v1/files/content/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/v1/adoptions/posts", "/api/v1/adoptions/posts/*").permitAll()
                 .requestMatchers("/api/admin/v1/auth/**").permitAll()
                 .requestMatchers("/api/admin/v1/**").hasRole("ADMIN")
                 .requestMatchers("/api/v1/**").hasRole("USER")
