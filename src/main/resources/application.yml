@@ -3,7 +3,7 @@ spring:
     name: pet-love-web
   autoconfigure:
     exclude:
-      - org.springframework.boot.security.autoconfigure.userdetails.UserDetailsServiceAutoConfiguration
+      - org.springframework.boot.security.autoconfigure.UserDetailsServiceAutoConfiguration
   datasource:
     url: jdbc:h2:mem:petlove;MODE=PostgreSQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
     driver-class-name: org.h2.Driver
@@ -26,6 +26,8 @@ spring:
   h2:
     console:
       enabled: true
+  thymeleaf:
+    check-template-location: false
 
 springdoc:
   api-docs:

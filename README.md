@@ -1,5 +1,7 @@
 # PetLove Web - Phase 0 Backend
 
+运行与联调步骤请看：[README-RUNBOOK.md](README-RUNBOOK.md)
+
 ## 1. 当前实现范围
 
 本次已实现 `dev-phase-1.md` 的 Phase 0 后端基础能力（不含领养/喂养/救助业务）：
