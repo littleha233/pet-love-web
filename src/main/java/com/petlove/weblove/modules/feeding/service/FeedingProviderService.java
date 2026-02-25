@@ -15,6 +15,9 @@ import com.petlove.weblove.modules.feeding.entity.FeedingProviderProfile;
 import com.petlove.weblove.modules.feeding.enums.FeedingProviderProfileStatus;
 import com.petlove.weblove.modules.feeding.enums.FeedingServiceItemTag;
 import com.petlove.weblove.modules.feeding.repository.FeedingProviderProfileRepository;
+import com.petlove.weblove.modules.ops.enums.CityFeatureKey;
+import com.petlove.weblove.modules.risk.RiskActionKeys;
+import com.petlove.weblove.modules.risk.RiskGuard;
 import com.petlove.weblove.modules.system.entity.City;
 import com.petlove.weblove.modules.system.repository.CityRepository;
 import com.petlove.weblove.modules.user.entity.UserProfile;
@@ -52,15 +55,18 @@ public class FeedingProviderService {
     private final FeedingProviderProfileRepository feedingProviderProfileRepository;
     private final UserProfileRepository userProfileRepository;
     private final CityRepository cityRepository;
+    private final RiskGuard riskGuard;
     private final ObjectMapper objectMapper;
 
     public FeedingProviderService(FeedingProviderProfileRepository feedingProviderProfileRepository,
                                   UserProfileRepository userProfileRepository,
                                   CityRepository cityRepository,
+                                  RiskGuard riskGuard,
                                   ObjectMapper objectMapper) {
         this.feedingProviderProfileRepository = feedingProviderProfileRepository;
         this.userProfileRepository = userProfileRepository;
         this.cityRepository = cityRepository;
+        this.riskGuard = riskGuard;
         this.objectMapper = objectMapper;
     }
 
@@ -76,6 +82,12 @@ public class FeedingProviderService {
         String normalizedCityCode = normalizeText(cityCode);
         String normalizedKeyword = normalizeText(keyword);
         PetType parsedPetType = parsePetType(petType, false);
+        Set<String> readBlockedCityCodes = normalizedCityCode == null
+            ? riskGuard.resolveReadBlockedCityCodes(CityFeatureKey.FEEDING)
+            : Collections.emptySet();
+        if (normalizedCityCode != null) {
+            riskGuard.ensureCityFeatureReadable(normalizedCityCode, CityFeatureKey.FEEDING);
+        }
 
         Pageable pageable = PageRequest.of(
             normalizedPage - 1,
@@ -91,6 +103,8 @@ public class FeedingProviderService {
 
             if (normalizedCityCode != null) {
                 predicates.add(cb.equal(root.get("serviceCityCode"), normalizedCityCode));
+            } else if (!readBlockedCityCodes.isEmpty()) {
+                predicates.add(cb.not(root.get("serviceCityCode").in(readBlockedCityCodes)));
             }
 
             if (parsedPetType != null) {
@@ -157,6 +171,7 @@ public class FeedingProviderService {
                 ErrorCode.FEEDING_PROVIDER_PROFILE_NOT_FOUND,
                 "Active feeding provider profile not found"
             ));
+        riskGuard.ensureCityFeatureReadable(profile.getServiceCityCode(), CityFeatureKey.FEEDING);
 
         UserProfile userProfile = userProfileRepository.findByUserId(providerUserId).orElse(null);
         return toDetail(profile, userProfile, buildViewerContext(profile.getProviderUserId()));
@@ -230,6 +245,12 @@ public class FeedingProviderService {
 
         if (targetStatus == FeedingProviderProfileStatus.ACTIVE) {
             ensureProfileCompleteForActive(request, servicePetTypes, serviceItemTags);
+            riskGuard.ensureUserActionAllowed(
+                userId,
+                request.getServiceCityCode(),
+                RiskActionKeys.FEEDING_PROVIDER_PROFILE_ACTIVATE,
+                CityFeatureKey.FEEDING
+            );
         }
 
         profile.setStatus(targetStatus);

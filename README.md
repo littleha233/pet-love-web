@@ -104,6 +104,17 @@ docker compose up -d
 ./mvnw test
 ```
 
+测试默认连接（见 `src/test/resources/application.yml`）：
+
+- `127.0.0.1:3306`
+- 数据库：`pet_platform_test`
+
+可按需覆盖（例如你使用 Docker 的 `3307`）：
+
+```bash
+TEST_DB_PORT=3307 TEST_DB_NAME=pet_platform_test ./mvnw test
+```
+
 ## 6. 默认账号
 
 应用启动时会自动初始化一个超级管理员（若不存在）：

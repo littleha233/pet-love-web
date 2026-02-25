@@ -70,6 +70,26 @@ npm run dev
 
 - `http://localhost:5173`
 
+## 运行测试（避免端口踩坑）
+
+默认测试配置优先走本机 MySQL：
+
+- Host: `127.0.0.1`
+- Port: `3306`
+- DB: `pet_platform_test`（可自动创建）
+
+直接执行：
+
+```bash
+./mvnw test
+```
+
+如果你用 Docker MySQL（`3307`），执行：
+
+```bash
+TEST_DB_PORT=3307 TEST_DB_NAME=pet_platform_test ./mvnw test
+```
+
 ## 当前可用账号
 
 后端启动时会自动初始化默认管理员账号：

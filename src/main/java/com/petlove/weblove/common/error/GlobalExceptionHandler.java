@@ -72,7 +72,15 @@ public class GlobalExceptionHandler {
                  FEEDING_REVIEW_ALREADY_EXISTS,
                  FEEDING_REVIEW_NOT_ALLOWED,
                  FEEDING_VISIT_STATUS_INVALID,
-                 FEEDING_VISIT_FILE_INVALID -> HttpStatus.BAD_REQUEST;
+                 FEEDING_VISIT_FILE_INVALID,
+                 RESCUE_GUIDE_STATUS_INVALID,
+                 RESCUE_RESOURCE_STATUS_INVALID,
+                 RESCUE_CLUE_STATUS_INVALID,
+                 RESCUE_CLUE_FILE_INVALID,
+                 RESCUE_CLUE_SUGGESTED_RESOURCE_INVALID,
+                 COMPLAINT_TICKET_STATUS_INVALID,
+                 COMPLAINT_TICKET_FILE_INVALID,
+                 RISK_CONFIG_INVALID -> HttpStatus.BAD_REQUEST;
             case UNAUTHORIZED,
                  AUTH_OTP_INVALID,
                  AUTH_OTP_EXPIRED,
@@ -98,14 +106,30 @@ public class GlobalExceptionHandler {
                  FEEDING_ORDER_NOT_PROVIDER,
                  FEEDING_ORDER_PET_NOT_OWNED,
                  FEEDING_VISIT_NOT_PROVIDER,
-                 FEEDING_VISIT_FILE_NOT_OWNED -> HttpStatus.FORBIDDEN;
+                 FEEDING_VISIT_FILE_NOT_OWNED,
+                 RESCUE_CLUE_NOT_OWNER,
+                 RESCUE_CLUE_FILE_NOT_OWNED,
+                 RESCUE_PERMISSION_DENIED,
+                 COMPLAINT_TICKET_NOT_OWNER,
+                 COMPLAINT_TICKET_FILE_NOT_OWNED,
+                 RISK_BLACKLIST_BLOCKED,
+                 RISK_ACTION_NOT_ALLOWED,
+                 RISK_SCOPE_NOT_ALLOWED,
+                 CITY_FEATURE_NOT_OPEN,
+                 CITY_FEATURE_READ_DISABLED,
+                 CITY_FEATURE_WRITE_DISABLED -> HttpStatus.FORBIDDEN;
             case NOT_FOUND,
                  VERIFICATION_NOT_FOUND,
                  ADOPTION_POST_NOT_FOUND,
                  ADOPTION_APPLICATION_NOT_FOUND,
                  FEEDING_PROVIDER_PROFILE_NOT_FOUND,
                  FEEDING_ORDER_NOT_FOUND,
-                 FEEDING_VISIT_NOT_FOUND -> HttpStatus.NOT_FOUND;
+                 FEEDING_VISIT_NOT_FOUND,
+                 RESCUE_GUIDE_NOT_FOUND,
+                 RESCUE_RESOURCE_NOT_FOUND,
+                 RESCUE_CLUE_NOT_FOUND,
+                 COMPLAINT_TICKET_NOT_FOUND,
+                 AUDIT_LOG_NOT_FOUND -> HttpStatus.NOT_FOUND;
             default -> HttpStatus.BAD_REQUEST;
         };
     }

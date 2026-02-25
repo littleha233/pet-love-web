@@ -142,6 +142,21 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 return false;
             }
         }
+        if (path.equals("/api/v1/rescue/guides") || path.equals("/api/v1/rescue/resources")) {
+            return false;
+        }
+        if (path.startsWith("/api/v1/rescue/guides/")) {
+            String suffix = path.substring("/api/v1/rescue/guides/".length());
+            if (!suffix.isBlank() && !suffix.contains("/")) {
+                return false;
+            }
+        }
+        if (path.startsWith("/api/v1/rescue/resources/")) {
+            String suffix = path.substring("/api/v1/rescue/resources/".length());
+            if (!suffix.isBlank() && !suffix.contains("/")) {
+                return false;
+            }
+        }
         return true;
     }
 

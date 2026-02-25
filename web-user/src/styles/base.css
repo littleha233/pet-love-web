@@ -1058,3 +1058,84 @@ a {
     grid-template-columns: 1fr;
   }
 }
+
+.rescue-status-submitted {
+  color: #8a5b18;
+  background: rgba(168, 112, 27, 0.18);
+}
+
+.rescue-status-triaged {
+  color: #175cd3;
+  background: rgba(23, 92, 211, 0.14);
+}
+
+.rescue-status-progress {
+  color: #6941c6;
+  background: rgba(105, 65, 198, 0.14);
+}
+
+.rescue-status-resolved {
+  color: #027a48;
+  background: rgba(2, 122, 72, 0.14);
+}
+
+.rescue-status-closed,
+.rescue-status-invalid,
+.rescue-status-default {
+  color: #475467;
+  background: rgba(71, 84, 103, 0.15);
+}
+
+.rescue-guide-status-draft,
+.rescue-resource-status-draft {
+  color: #8a5b18;
+  background: rgba(168, 112, 27, 0.18);
+}
+
+.rescue-guide-status-published,
+.rescue-resource-status-active {
+  color: #027a48;
+  background: rgba(2, 122, 72, 0.14);
+}
+
+.rescue-guide-status-offline,
+.rescue-resource-status-paused,
+.rescue-resource-status-offline,
+.rescue-guide-status-default,
+.rescue-resource-status-default {
+  color: #475467;
+  background: rgba(71, 84, 103, 0.15);
+}
+
+.markdown-content {
+  display: grid;
+  gap: 10px;
+}
+
+.markdown-content h1,
+.markdown-content h2,
+.markdown-content h3 {
+  margin: 0;
+  font-family: "Fraunces", "Noto Serif SC", serif;
+}
+
+.markdown-content p,
+.markdown-content ul {
+  margin: 0;
+}
+
+.markdown-content ul {
+  padding-left: 18px;
+}
+
+.markdown-content code {
+  background: #f3eee6;
+  border-radius: 6px;
+  padding: 2px 6px;
+  font-size: 13px;
+}
+
+.markdown-content a {
+  color: #175cd3;
+  text-decoration: underline;
+}

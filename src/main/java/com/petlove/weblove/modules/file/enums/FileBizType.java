@@ -6,5 +6,7 @@ public enum FileBizType {
     CERTIFICATE,
     PET_MEDIA,
     FEEDING_LOG,
+    RESCUE_CLUE,
+    COMPLAINT_EVIDENCE,
     OTHER
 }

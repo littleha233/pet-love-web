@@ -30,10 +30,13 @@ import com.petlove.weblove.modules.file.entity.FileObject;
 import com.petlove.weblove.modules.file.enums.FileBizType;
 import com.petlove.weblove.modules.file.enums.FileStatus;
 import com.petlove.weblove.modules.file.repository.FileObjectRepository;
+import com.petlove.weblove.modules.ops.enums.CityFeatureKey;
 import com.petlove.weblove.modules.system.entity.City;
 import com.petlove.weblove.modules.system.repository.CityRepository;
 import com.petlove.weblove.modules.user.entity.UserProfile;
 import com.petlove.weblove.modules.user.repository.UserProfileRepository;
+import com.petlove.weblove.modules.risk.RiskActionKeys;
+import com.petlove.weblove.modules.risk.RiskGuard;
 import com.petlove.weblove.security.AuthPrincipal;
 import com.petlove.weblove.security.AuthPrincipalType;
 import com.petlove.weblove.security.SecurityUtils;
@@ -74,6 +77,7 @@ public class AdoptionPostService {
     private final FileObjectRepository fileObjectRepository;
     private final UserProfileRepository userProfileRepository;
     private final CityRepository cityRepository;
+    private final RiskGuard riskGuard;
     private final ObjectMapper objectMapper;
 
     public AdoptionPostService(AdoptionPostRepository adoptionPostRepository,
@@ -83,6 +87,7 @@ public class AdoptionPostService {
                                FileObjectRepository fileObjectRepository,
                                UserProfileRepository userProfileRepository,
                                CityRepository cityRepository,
+                               RiskGuard riskGuard,
                                ObjectMapper objectMapper) {
         this.adoptionPostRepository = adoptionPostRepository;
         this.petRepository = petRepository;
@@ -91,6 +96,7 @@ public class AdoptionPostService {
         this.fileObjectRepository = fileObjectRepository;
         this.userProfileRepository = userProfileRepository;
         this.cityRepository = cityRepository;
+        this.riskGuard = riskGuard;
         this.objectMapper = objectMapper;
     }
 
@@ -106,6 +112,13 @@ public class AdoptionPostService {
         PetType parsedPetType = parsePetType(petType, false);
         String normalizedCityCode = normalizeText(cityCode);
         String normalizedKeyword = normalizeText(keyword);
+        Set<String> readBlockedCityCodes = normalizedCityCode == null
+            ? riskGuard.resolveReadBlockedCityCodes(CityFeatureKey.ADOPTION)
+            : Collections.emptySet();
+
+        if (normalizedCityCode != null) {
+            riskGuard.ensureCityFeatureReadable(normalizedCityCode, CityFeatureKey.ADOPTION);
+        }
 
         Pageable pageable = PageRequest.of(
             normalizedPage - 1,
@@ -119,6 +132,8 @@ public class AdoptionPostService {
 
             if (normalizedCityCode != null) {
                 predicates.add(cb.equal(root.get("cityCode"), normalizedCityCode));
+            } else if (!readBlockedCityCodes.isEmpty()) {
+                predicates.add(cb.not(root.get("cityCode").in(readBlockedCityCodes)));
             }
 
             if (normalizedKeyword != null) {
@@ -181,6 +196,8 @@ public class AdoptionPostService {
             throw new BizException(ErrorCode.ADOPTION_POST_NOT_FOUND, "Adoption post not found");
         }
 
+        riskGuard.ensureCityFeatureReadable(post.getCityCode(), CityFeatureKey.ADOPTION);
+
         return buildDetail(post, viewerUserId, true);
     }
 
@@ -189,6 +206,12 @@ public class AdoptionPostService {
         long userId = SecurityUtils.currentUserId();
         ensureRealNameVerified(userId);
         validateCity(request.getCityCode());
+        riskGuard.ensureUserActionAllowed(
+            userId,
+            request.getCityCode(),
+            RiskActionKeys.ADOPTION_POST_CREATE,
+            CityFeatureKey.ADOPTION
+        );
 
         List<Long> imageFileIds = normalizeFileIds(request.getPetImageFileIds());
         validatePetImageFiles(imageFileIds, userId);

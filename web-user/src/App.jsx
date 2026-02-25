@@ -18,6 +18,29 @@ import MyFeedingOrderDetailPage from "./pages/MyFeedingOrderDetailPage.jsx";
 import FeedingProviderCenterPage from "./pages/FeedingProviderCenterPage.jsx";
 import FeedingProviderOrdersPage from "./pages/FeedingProviderOrdersPage.jsx";
 import FeedingProviderOrderDetailPage from "./pages/FeedingProviderOrderDetailPage.jsx";
+import RescueHomePage from "./pages/RescueHomePage.jsx";
+import RescueGuideListPage from "./pages/RescueGuideListPage.jsx";
+import RescueGuideDetailPage from "./pages/RescueGuideDetailPage.jsx";
+import RescueResourceListPage from "./pages/RescueResourceListPage.jsx";
+import RescueResourceDetailPage from "./pages/RescueResourceDetailPage.jsx";
+import RescueClueSubmitPage from "./pages/RescueClueSubmitPage.jsx";
+import MyRescueCluesPage from "./pages/MyRescueCluesPage.jsx";
+import MyRescueClueDetailPage from "./pages/MyRescueClueDetailPage.jsx";
+import AdminRescueGuideListPage from "./pages/AdminRescueGuideListPage.jsx";
+import AdminRescueGuideEditPage from "./pages/AdminRescueGuideEditPage.jsx";
+import AdminRescueResourceListPage from "./pages/AdminRescueResourceListPage.jsx";
+import AdminRescueResourceEditPage from "./pages/AdminRescueResourceEditPage.jsx";
+import AdminRescueClueListPage from "./pages/AdminRescueClueListPage.jsx";
+import AdminRescueClueDetailPage from "./pages/AdminRescueClueDetailPage.jsx";
+import ComplaintSubmitPage from "./pages/ComplaintSubmitPage.jsx";
+import MyComplaintTicketsPage from "./pages/MyComplaintTicketsPage.jsx";
+import MyComplaintTicketDetailPage from "./pages/MyComplaintTicketDetailPage.jsx";
+import AdminOpsDashboardPage from "./pages/AdminOpsDashboardPage.jsx";
+import AdminComplaintTicketListPage from "./pages/AdminComplaintTicketListPage.jsx";
+import AdminComplaintTicketDetailPage from "./pages/AdminComplaintTicketDetailPage.jsx";
+import AdminBlacklistPage from "./pages/AdminBlacklistPage.jsx";
+import AdminCityFeaturePage from "./pages/AdminCityFeaturePage.jsx";
+import AdminAuditLogSearchPage from "./pages/AdminAuditLogSearchPage.jsx";
 
 function App() {
   return (
@@ -37,6 +60,7 @@ function App() {
             element={<MyRehomePostApplicationsPage />}
           />
           <Route path="/me/adoption/applications" element={<MyAdoptionApplicationsPage />} />
+
           <Route path="/feeding/providers" element={<FeedingProviderListPage />} />
           <Route path="/feeding/providers/:providerUserId" element={<FeedingProviderDetailPage />} />
           <Route path="/feeding/orders/new" element={<FeedingOrderCreatePage />} />
@@ -45,11 +69,37 @@ function App() {
           <Route path="/provider/feeding/profile" element={<FeedingProviderCenterPage />} />
           <Route path="/provider/feeding/orders" element={<FeedingProviderOrdersPage />} />
           <Route path="/provider/feeding/orders/:orderId" element={<FeedingProviderOrderDetailPage />} />
+
+          <Route path="/rescue" element={<RescueHomePage />} />
+          <Route path="/rescue/guides" element={<RescueGuideListPage />} />
+          <Route path="/rescue/guides/:guideId" element={<RescueGuideDetailPage />} />
+          <Route path="/rescue/resources" element={<RescueResourceListPage />} />
+          <Route path="/rescue/resources/:resourceId" element={<RescueResourceDetailPage />} />
+          <Route path="/rescue/clues/new" element={<RescueClueSubmitPage />} />
+          <Route path="/me/rescue/clues" element={<MyRescueCluesPage />} />
+          <Route path="/me/rescue/clues/:clueId" element={<MyRescueClueDetailPage />} />
+          <Route path="/support/complaints/new" element={<ComplaintSubmitPage />} />
+          <Route path="/me/support/complaints" element={<MyComplaintTicketsPage />} />
+          <Route path="/me/support/complaints/:ticketId" element={<MyComplaintTicketDetailPage />} />
+
           <Route path="/admin/adoptions/posts" element={<AdminAdoptionPostReviewListPage />} />
           <Route
             path="/admin/adoptions/posts/:postId"
             element={<AdminAdoptionPostReviewDetailPage />}
           />
+          <Route path="/admin/rescue/guides" element={<AdminRescueGuideListPage />} />
+          <Route path="/admin/rescue/guides/:guideId" element={<AdminRescueGuideEditPage />} />
+          <Route path="/admin/rescue/resources" element={<AdminRescueResourceListPage />} />
+          <Route path="/admin/rescue/resources/:resourceId" element={<AdminRescueResourceEditPage />} />
+          <Route path="/admin/rescue/clues" element={<AdminRescueClueListPage />} />
+          <Route path="/admin/rescue/clues/:clueId" element={<AdminRescueClueDetailPage />} />
+          <Route path="/admin/ops/dashboard" element={<AdminOpsDashboardPage />} />
+          <Route path="/admin/ops/complaints" element={<AdminComplaintTicketListPage />} />
+          <Route path="/admin/ops/complaints/:ticketId" element={<AdminComplaintTicketDetailPage />} />
+          <Route path="/admin/ops/risk/blacklists" element={<AdminBlacklistPage />} />
+          <Route path="/admin/ops/city-features" element={<AdminCityFeaturePage />} />
+          <Route path="/admin/ops/audit-logs" element={<AdminAuditLogSearchPage />} />
+
           <Route path="/services" element={<ServicesPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>

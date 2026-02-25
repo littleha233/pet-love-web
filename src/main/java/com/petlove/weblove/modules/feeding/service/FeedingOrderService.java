@@ -40,6 +40,9 @@ import com.petlove.weblove.modules.feeding.repository.FeedingProviderProfileRepo
 import com.petlove.weblove.modules.feeding.repository.FeedingVisitMediaRepository;
 import com.petlove.weblove.modules.file.entity.FileObject;
 import com.petlove.weblove.modules.file.repository.FileObjectRepository;
+import com.petlove.weblove.modules.ops.enums.CityFeatureKey;
+import com.petlove.weblove.modules.risk.RiskActionKeys;
+import com.petlove.weblove.modules.risk.RiskGuard;
 import com.petlove.weblove.modules.system.entity.City;
 import com.petlove.weblove.modules.system.repository.CityRepository;
 import com.petlove.weblove.modules.user.entity.UserProfile;
@@ -87,6 +90,7 @@ public class FeedingOrderService {
     private final UserProfileRepository userProfileRepository;
     private final FileObjectRepository fileObjectRepository;
     private final CityRepository cityRepository;
+    private final RiskGuard riskGuard;
     private final ObjectMapper objectMapper;
 
     public FeedingOrderService(FeedingOrderRepository feedingOrderRepository,
@@ -99,6 +103,7 @@ public class FeedingOrderService {
                                UserProfileRepository userProfileRepository,
                                FileObjectRepository fileObjectRepository,
                                CityRepository cityRepository,
+                               RiskGuard riskGuard,
                                ObjectMapper objectMapper) {
         this.feedingOrderRepository = feedingOrderRepository;
         this.feedingProviderProfileRepository = feedingProviderProfileRepository;
@@ -110,6 +115,7 @@ public class FeedingOrderService {
         this.userProfileRepository = userProfileRepository;
         this.fileObjectRepository = fileObjectRepository;
         this.cityRepository = cityRepository;
+        this.riskGuard = riskGuard;
         this.objectMapper = objectMapper;
     }
 
@@ -136,6 +142,12 @@ public class FeedingOrderService {
         }
 
         validateCity(request.getServiceCityCode());
+        riskGuard.ensureUserActionAllowed(
+            ownerUserId,
+            request.getServiceCityCode(),
+            RiskActionKeys.FEEDING_ORDER_CREATE,
+            CityFeatureKey.FEEDING
+        );
 
         List<String> serviceItemTags = normalizeServiceItemTags(request.getServiceItemTags(), true);
         List<Long> petIds = normalizePetIds(request.getPetIds());

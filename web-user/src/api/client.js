@@ -55,7 +55,31 @@ const ERROR_CODE_MESSAGES = {
   FEEDING_VISIT_FILE_INVALID: "留痕图片无效，请重新上传",
   FEEDING_VISIT_FILE_NOT_OWNED: "留痕图片不属于当前账号",
   FEEDING_REVIEW_ALREADY_EXISTS: "该订单已评价，不能重复提交",
-  FEEDING_REVIEW_NOT_ALLOWED: "当前订单状态不可评价"
+  FEEDING_REVIEW_NOT_ALLOWED: "当前订单状态不可评价",
+  RESCUE_GUIDE_NOT_FOUND: "救助指引不存在或已下线",
+  RESCUE_GUIDE_STATUS_INVALID: "当前指引状态不允许该操作",
+  RESCUE_RESOURCE_NOT_FOUND: "救助资源不存在或已下线",
+  RESCUE_RESOURCE_STATUS_INVALID: "当前资源状态不允许该操作",
+  RESCUE_CLUE_NOT_FOUND: "救助线索不存在",
+  RESCUE_CLUE_NOT_OWNER: "该救助线索不属于当前账号",
+  RESCUE_CLUE_STATUS_INVALID: "当前线索状态不允许该操作",
+  RESCUE_CLUE_FILE_INVALID: "线索图片无效，请重新上传",
+  RESCUE_CLUE_FILE_NOT_OWNED: "线索图片不属于当前账号",
+  RESCUE_CLUE_SUGGESTED_RESOURCE_INVALID: "推荐资源无效或不在同城",
+  RESCUE_PERMISSION_DENIED: "当前账号暂无救助管理权限",
+  COMPLAINT_TICKET_NOT_FOUND: "投诉工单不存在或已删除",
+  COMPLAINT_TICKET_NOT_OWNER: "该投诉工单不属于当前账号",
+  COMPLAINT_TICKET_STATUS_INVALID: "当前工单状态不支持该操作",
+  COMPLAINT_TICKET_FILE_INVALID: "投诉证据图片无效，请重新上传",
+  COMPLAINT_TICKET_FILE_NOT_OWNED: "投诉证据图片不属于当前账号",
+  RISK_BLACKLIST_BLOCKED: "当前账号因风控限制，暂不可执行此操作",
+  RISK_ACTION_NOT_ALLOWED: "当前行为已被风控限制",
+  RISK_SCOPE_NOT_ALLOWED: "当前业务范围已被风控限制",
+  RISK_CONFIG_INVALID: "风控配置无效，请联系管理员",
+  CITY_FEATURE_NOT_OPEN: "当前城市暂未开放此功能",
+  CITY_FEATURE_READ_DISABLED: "当前城市暂不支持浏览该功能",
+  CITY_FEATURE_WRITE_DISABLED: "当前城市暂不支持提交该操作",
+  AUDIT_LOG_NOT_FOUND: "审计日志不存在或已删除"
 };
 
 export class ApiError extends Error {

@@ -19,8 +19,11 @@ import com.petlove.weblove.modules.adoption.repository.AdoptionPostRepository;
 import com.petlove.weblove.modules.adoption.repository.PetMediaRepository;
 import com.petlove.weblove.modules.file.entity.FileObject;
 import com.petlove.weblove.modules.file.repository.FileObjectRepository;
+import com.petlove.weblove.modules.ops.enums.CityFeatureKey;
 import com.petlove.weblove.modules.user.entity.UserProfile;
 import com.petlove.weblove.modules.user.repository.UserProfileRepository;
+import com.petlove.weblove.modules.risk.RiskActionKeys;
+import com.petlove.weblove.modules.risk.RiskGuard;
 import com.petlove.weblove.security.SecurityUtils;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -49,17 +52,20 @@ public class AdoptionApplicationService {
     private final PetMediaRepository petMediaRepository;
     private final FileObjectRepository fileObjectRepository;
     private final UserProfileRepository userProfileRepository;
+    private final RiskGuard riskGuard;
 
     public AdoptionApplicationService(AdoptionApplicationRepository adoptionApplicationRepository,
                                       AdoptionPostRepository adoptionPostRepository,
                                       PetMediaRepository petMediaRepository,
                                       FileObjectRepository fileObjectRepository,
-                                      UserProfileRepository userProfileRepository) {
+                                      UserProfileRepository userProfileRepository,
+                                      RiskGuard riskGuard) {
         this.adoptionApplicationRepository = adoptionApplicationRepository;
         this.adoptionPostRepository = adoptionPostRepository;
         this.petMediaRepository = petMediaRepository;
         this.fileObjectRepository = fileObjectRepository;
         this.userProfileRepository = userProfileRepository;
+        this.riskGuard = riskGuard;
     }
 
     @Transactional
@@ -76,6 +82,12 @@ public class AdoptionApplicationService {
         if (post.getStatus() != AdoptionPostStatus.PUBLISHED) {
             throw new BizException(ErrorCode.ADOPTION_APPLICATION_NOT_ALLOWED, "Only published post can be applied");
         }
+        riskGuard.ensureUserActionAllowed(
+            userId,
+            post.getCityCode(),
+            RiskActionKeys.ADOPTION_APPLICATION_SUBMIT,
+            CityFeatureKey.ADOPTION
+        );
 
         if (adoptionApplicationRepository.findByPostIdAndApplicantUserId(postId, userId).isPresent()) {
             throw new BizException(ErrorCode.ADOPTION_APPLICATION_DUPLICATE, "Application already exists");
