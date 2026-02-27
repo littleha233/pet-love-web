@@ -113,7 +113,7 @@ function FeedingVisitEditor({ visit, onSuccess }) {
           <img key={`${url}-${index}`} src={url} alt="留痕" />
         ))}
       </div>
-      {message ? <p className="helper-text">{message}</p> : null}
+      {message ? <p className="helper-text notice-text">{message}</p> : null}
       <button className="primary-btn" type="submit" disabled={submitting || uploading}>
         {submitting ? "提交中..." : "提交留痕"}
       </button>

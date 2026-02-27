@@ -107,7 +107,7 @@ function RehomePostCreatePage() {
 
     try {
       await createRehomePost(payload);
-      navigate("/me/adoption/posts", {
+      navigate("/adoption/my-posts", {
         state: { notice: "发布成功，帖子状态为待审核。" }
       });
     } catch (err) {
@@ -175,7 +175,7 @@ function RehomePostCreatePage() {
           <button className="primary-btn" type="submit" disabled={submitting || uploading}>
             {submitting ? "提交中..." : "发布并提交审核"}
           </button>
-          {message ? <p className="helper-text">{message}</p> : null}
+          {message ? <p className="helper-text notice-text">{message}</p> : null}
         </form>
       </section>
     </div>

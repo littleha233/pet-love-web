@@ -65,14 +65,14 @@ function MyRehomePostApplicationsPage() {
         <p className="eyebrow">收到的申请</p>
         <h1>{post ? post.title : `帖子 #${postId}`}</h1>
         <p>
-          <Link to="/me/adoption/posts">返回我的发布</Link>
+          <Link to="/adoption/my-posts">返回我的发布</Link>
         </p>
       </section>
 
       <section className="card page-form-card">
         {loading ? <p className="helper-text">加载中...</p> : null}
         {error ? <p className="error-text">{error}</p> : null}
-        {message ? <p className="helper-text">{message}</p> : null}
+        {message ? <p className="helper-text notice-text">{message}</p> : null}
 
         <div className="list-stack">
           {result.items.map((item) => (

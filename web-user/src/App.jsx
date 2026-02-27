@@ -1,8 +1,9 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import NavBar from "./components/NavBar.jsx";
 import HomePage from "./pages/HomePage.jsx";
+import AdoptionModulePage from "./pages/AdoptionModulePage.jsx";
 import AdoptionPage from "./pages/AdoptionPage.jsx";
-import ServicesPage from "./pages/ServicesPage.jsx";
+import FeedingModulePage from "./pages/FeedingModulePage.jsx";
 import AdoptionDetailPage from "./pages/AdoptionDetailPage.jsx";
 import RehomePostCreatePage from "./pages/RehomePostCreatePage.jsx";
 import MyRehomePostsPage from "./pages/MyRehomePostsPage.jsx";
@@ -41,29 +42,52 @@ import AdminComplaintTicketDetailPage from "./pages/AdminComplaintTicketDetailPa
 import AdminBlacklistPage from "./pages/AdminBlacklistPage.jsx";
 import AdminCityFeaturePage from "./pages/AdminCityFeaturePage.jsx";
 import AdminAuditLogSearchPage from "./pages/AdminAuditLogSearchPage.jsx";
+import MobileLoginPage from "./pages/MobileLoginPage.jsx";
+import CommunityPage from "./pages/CommunityPage.jsx";
+import MyCenterPage from "./pages/MyCenterPage.jsx";
 
 function App() {
   return (
     <div className="app-shell">
       <div className="bg-orb bg-orb-left" />
       <div className="bg-orb bg-orb-right" />
+      <div className="bg-orb bg-orb-center" />
       <NavBar />
       <main className="page-main container">
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/adoption" element={<AdoptionPage />} />
+          <Route path="/community" element={<CommunityPage />} />
+          <Route path="/me" element={<MyCenterPage />} />
+          <Route path="/auth/mobile-login" element={<MobileLoginPage />} />
+
+          <Route path="/adoption" element={<AdoptionModulePage />} />
+          <Route path="/adoption/list" element={<AdoptionPage />} />
+          <Route path="/adoption/post/new" element={<RehomePostCreatePage />} />
+          <Route path="/adoption/applications" element={<MyAdoptionApplicationsPage />} />
+          <Route path="/adoption/my-posts" element={<MyRehomePostsPage />} />
+          <Route
+            path="/adoption/my-posts/:postId/applications"
+            element={<MyRehomePostApplicationsPage />}
+          />
           <Route path="/adoption/:postId" element={<AdoptionDetailPage />} />
-          <Route path="/adoption/rehome/new" element={<RehomePostCreatePage />} />
+
+          <Route path="/feeding" element={<FeedingModulePage />} />
+          <Route path="/feeding/providers" element={<FeedingProviderListPage />} />
+          <Route path="/feeding/providers/:providerUserId" element={<FeedingProviderDetailPage />} />
+          <Route path="/feeding/orders/new" element={<FeedingOrderCreatePage />} />
+          <Route path="/feeding/my-orders" element={<MyFeedingOrdersPage />} />
+          <Route path="/feeding/my-orders/:orderId" element={<MyFeedingOrderDetailPage />} />
+          <Route path="/feeding/provider-center" element={<FeedingProviderCenterPage />} />
+          <Route path="/feeding/my-jobs" element={<FeedingProviderOrdersPage />} />
+          <Route path="/feeding/my-jobs/:orderId" element={<FeedingProviderOrderDetailPage />} />
+
+          <Route path="/adoption/rehome/new" element={<Navigate to="/adoption/post/new" replace />} />
           <Route path="/me/adoption/posts" element={<MyRehomePostsPage />} />
           <Route
             path="/me/adoption/posts/:postId/applications"
             element={<MyRehomePostApplicationsPage />}
           />
           <Route path="/me/adoption/applications" element={<MyAdoptionApplicationsPage />} />
-
-          <Route path="/feeding/providers" element={<FeedingProviderListPage />} />
-          <Route path="/feeding/providers/:providerUserId" element={<FeedingProviderDetailPage />} />
-          <Route path="/feeding/orders/new" element={<FeedingOrderCreatePage />} />
           <Route path="/me/feeding/orders" element={<MyFeedingOrdersPage />} />
           <Route path="/me/feeding/orders/:orderId" element={<MyFeedingOrderDetailPage />} />
           <Route path="/provider/feeding/profile" element={<FeedingProviderCenterPage />} />
@@ -100,7 +124,7 @@ function App() {
           <Route path="/admin/ops/city-features" element={<AdminCityFeaturePage />} />
           <Route path="/admin/ops/audit-logs" element={<AdminAuditLogSearchPage />} />
 
-          <Route path="/services" element={<ServicesPage />} />
+          <Route path="/services" element={<Navigate to="/feeding" replace />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>

@@ -55,6 +55,12 @@ public class GlobalExceptionHandler {
     private HttpStatus mapHttpStatus(ErrorCode errorCode) {
         return switch (errorCode) {
             case INVALID_PARAM,
+                 AUTH_MOBILE_INVALID,
+                 AUTH_SMS_BIZ_TYPE_INVALID,
+                 AUTH_SMS_PROVIDER_SEND_FAILED,
+                 AUTH_SMS_CAPTCHA_REQUIRED,
+                 AUTH_SMS_CAPTCHA_INVALID,
+                 AUTH_SMS_CODE_NOT_FOUND,
                  VERIFICATION_STATUS_INVALID,
                  VERIFICATION_FILE_INVALID,
                  VERIFICATION_ALREADY_APPROVED,
@@ -84,9 +90,19 @@ public class GlobalExceptionHandler {
             case UNAUTHORIZED,
                  AUTH_OTP_INVALID,
                  AUTH_OTP_EXPIRED,
+                 AUTH_SMS_CODE_EXPIRED,
+                 AUTH_SMS_CODE_INCORRECT,
+                 AUTH_SMS_CODE_ATTEMPTS_EXCEEDED,
+                 AUTH_SMS_CODE_ALREADY_USED,
+                 AUTH_SMS_CODE_STATUS_INVALID,
                  AUTH_TOKEN_INVALID,
                  AUTH_REFRESH_TOKEN_INVALID -> HttpStatus.UNAUTHORIZED;
             case FORBIDDEN,
+                 AUTH_SMS_SEND_TOO_FREQUENT,
+                 AUTH_SMS_MOBILE_DAILY_LIMIT_EXCEEDED,
+                 AUTH_SMS_IP_DAILY_LIMIT_EXCEEDED,
+                 AUTH_LOGIN_MOBILE_BLOCKED,
+                 AUTH_SMS_SEND_BLOCKED,
                  USER_DISABLED,
                  USER_BANNED,
                  AUTH_OTP_TOO_FREQUENT,
@@ -130,6 +146,9 @@ public class GlobalExceptionHandler {
                  RESCUE_CLUE_NOT_FOUND,
                  COMPLAINT_TICKET_NOT_FOUND,
                  AUDIT_LOG_NOT_FOUND -> HttpStatus.NOT_FOUND;
+            case AUTH_TOKEN_ISSUE_FAILED,
+                 AUTH_USER_CREATE_FAILED,
+                 AUTH_SMS_LOG_WRITE_FAILED -> HttpStatus.INTERNAL_SERVER_ERROR;
             default -> HttpStatus.BAD_REQUEST;
         };
     }

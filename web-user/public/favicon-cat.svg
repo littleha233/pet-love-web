@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" role="img" aria-label="PetLove cat icon">
+  <defs>
+    <linearGradient id="petloveCard" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffe5cb" />
+      <stop offset="100%" stop-color="#d79a72" />
+    </linearGradient>
+  </defs>
+
+  <rect x="8" y="8" width="112" height="112" rx="28" fill="url(#petloveCard)" />
+  <path d="M35 55 L43 24 L57 48 Z" fill="#fff8ef" />
+  <path d="M93 55 L85 24 L71 48 Z" fill="#fff8ef" />
+  <path d="M39 52 L43 33 L53 47 Z" fill="#f4c5b0" />
+  <path d="M89 52 L85 33 L75 47 Z" fill="#f4c5b0" />
+  <circle cx="64" cy="68" r="33" fill="#fff8ef" />
+  <ellipse cx="52" cy="66" rx="4.6" ry="5.2" fill="#6f3f2b" />
+  <ellipse cx="76" cy="66" rx="4.6" ry="5.2" fill="#6f3f2b" />
+  <path d="M64 74 C60 70 56 73 64 80 C72 73 68 70 64 74 Z" fill="#d88873" />
+  <path d="M64 79 L64 86" stroke="#7b4d36" stroke-width="2.2" stroke-linecap="round" />
+  <path d="M64 86 C59 90 55 90 51 87" stroke="#7b4d36" stroke-width="2.2" fill="none" stroke-linecap="round" />
+  <path d="M64 86 C69 90 73 90 77 87" stroke="#7b4d36" stroke-width="2.2" fill="none" stroke-linecap="round" />
+  <path d="M44 74 L30 70" stroke="#a2664a" stroke-width="2.2" stroke-linecap="round" />
+  <path d="M44 78 L29 79" stroke="#a2664a" stroke-width="2.2" stroke-linecap="round" />
+  <path d="M84 74 L98 70" stroke="#a2664a" stroke-width="2.2" stroke-linecap="round" />
+  <path d="M84 78 L99 79" stroke="#a2664a" stroke-width="2.2" stroke-linecap="round" />
+</svg>

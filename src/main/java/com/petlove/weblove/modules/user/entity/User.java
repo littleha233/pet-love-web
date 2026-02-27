@@ -34,6 +34,12 @@ public class User extends BaseEntity {
     @Column(name = "last_login_at")
     private LocalDateTime lastLoginAt;
 
+    @Column(name = "mobile_verified_at")
+    private LocalDateTime mobileVerifiedAt;
+
+    @Column(name = "register_channel")
+    private String registerChannel;
+
     public Long getId() {
         return id;
     }
@@ -84,5 +90,21 @@ public class User extends BaseEntity {
 
     public void setLastLoginAt(LocalDateTime lastLoginAt) {
         this.lastLoginAt = lastLoginAt;
+    }
+
+    public LocalDateTime getMobileVerifiedAt() {
+        return mobileVerifiedAt;
+    }
+
+    public void setMobileVerifiedAt(LocalDateTime mobileVerifiedAt) {
+        this.mobileVerifiedAt = mobileVerifiedAt;
+    }
+
+    public String getRegisterChannel() {
+        return registerChannel;
+    }
+
+    public void setRegisterChannel(String registerChannel) {
+        this.registerChannel = registerChannel;
     }
 }

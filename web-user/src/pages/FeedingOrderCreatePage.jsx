@@ -207,7 +207,7 @@ function FeedingOrderCreatePage() {
       };
 
       const created = await createFeedingOrder(payload);
-      navigate(`/me/feeding/orders/${created.orderId}`);
+      navigate(`/feeding/my-orders/${created.orderId}`);
     } catch (err) {
       setMessage(err.message || "创建订单失败");
     } finally {
@@ -364,7 +364,7 @@ function FeedingOrderCreatePage() {
             </button>
           </div>
 
-          {message ? <p className="helper-text">{message}</p> : null}
+          {message ? <p className="helper-text notice-text">{message}</p> : null}
           <button className="primary-btn" type="submit" disabled={submitting || !canSubmit}>
             {submitting ? "提交中..." : "提交预约请求"}
           </button>

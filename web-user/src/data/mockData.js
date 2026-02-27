@@ -156,3 +156,87 @@ export const processSteps = [
   "服务者接单后按节点打卡与留痕",
   "完成服务后用户确认并评价"
 ];
+
+export const homepageTrustBadges = [
+  "已核验信息",
+  "服务留痕可查",
+  "投诉处理闭环"
+];
+
+export const adoptionFlowSteps = [
+  "浏览可领养信息",
+  "提交申请并沟通",
+  "线下确认领养条件",
+  "接宠回家与后续回访"
+];
+
+export const feedingFlowSteps = [
+  "选择服务者",
+  "发布喂养需求",
+  "按约定上门服务",
+  "留痕记录与评价反馈"
+];
+
+export const adoptionPreviewItems = [
+  {
+    title: "米粒 · 上海 · 英短",
+    subtitle: "亲人安静，已绝育，适合新手家庭。",
+    to: "/adoption/list"
+  },
+  {
+    title: "豆包 · 杭州 · 中华田园犬",
+    subtitle: "活泼不拆家，支持视频回访。",
+    to: "/adoption/list"
+  },
+  {
+    title: "奶糖 · 成都 · 布偶",
+    subtitle: "幼猫，基础驱虫完成。",
+    to: "/adoption/list"
+  },
+  {
+    title: "阿七 · 苏州 · 柯基",
+    subtitle: "稳定温顺，适合有遛犬条件家庭。",
+    to: "/adoption/list"
+  }
+];
+
+export const feedingProviderPreviewItems = [
+  {
+    title: "晴晴 · 上海徐汇",
+    subtitle: "猫咪照护 120+ 单，评分 4.9",
+    to: "/feeding/providers"
+  },
+  {
+    title: "阿泽 · 杭州滨江",
+    subtitle: "狗狗照护经验，支持节假日上门",
+    to: "/feeding/providers"
+  },
+  {
+    title: "Luna · 深圳南山",
+    subtitle: "支持多宠家庭，重视留痕记录",
+    to: "/feeding/providers"
+  },
+  {
+    title: "木木 · 南京鼓楼",
+    subtitle: "护理细致，擅长胆小宠陪护",
+    to: "/feeding/providers"
+  }
+];
+
+export const rescueQuickLinks = [
+  {
+    title: "发现流浪猫",
+    subtitle: "先判断现场安全，再查看处置步骤。",
+    to: "/rescue/guides?scenarioCode=FOUND_STRAY_CAT"
+  },
+  {
+    title: "发现受伤狗",
+    subtitle: "优先防护和转运，降低二次伤害风险。",
+    to: "/rescue/guides?scenarioCode=INJURED_DOG"
+  },
+  {
+    title: "提交救助线索",
+    subtitle: "同步位置、图片和情况描述，便于跟进。",
+    to: "/rescue/clues/new"
+  }
+];

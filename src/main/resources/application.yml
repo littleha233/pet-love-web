@@ -47,6 +47,20 @@ app:
     otp-ttl-seconds: 300
     otp-resend-seconds: 60
     mock-otp-enabled: true
+    sms:
+      enabled: ${AUTH_SMS_ENABLED:true}
+      provider: ${AUTH_SMS_PROVIDER:mock}
+      sign-name: ${AUTH_SMS_SIGN_NAME:PetLove}
+      template-login-code: ${AUTH_SMS_TEMPLATE_LOGIN_CODE:LOGIN_CODE}
+      code-ttl-seconds: ${AUTH_SMS_CODE_TTL_SECONDS:300}
+      code-length: ${AUTH_SMS_CODE_LENGTH:6}
+      cooldown-seconds: ${AUTH_SMS_COOLDOWN_SECONDS:60}
+      daily-limit-per-mobile: ${AUTH_SMS_DAILY_LIMIT_PER_MOBILE:10}
+      daily-limit-per-ip: ${AUTH_SMS_DAILY_LIMIT_PER_IP:30}
+      max-attempts: ${AUTH_SMS_MAX_ATTEMPTS:5}
+      hash-pepper: ${AUTH_SMS_HASH_PEPPER:petlove-sms-pepper-dev}
+      expose-mock-code-in-response: ${AUTH_SMS_EXPOSE_MOCK_CODE:true}
+      mock-code: ${AUTH_SMS_MOCK_CODE:123456}
   storage:
     type: local
     local-root: ./uploads

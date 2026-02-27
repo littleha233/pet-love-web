@@ -27,6 +27,17 @@ public class AuthController {
         return ApiResponse.success(authService.otpLogin(request));
     }
 
+    @PostMapping("/sms/send")
+    public ApiResponse<SendSmsCodeResponse> sendSmsCode(@Valid @RequestBody SendSmsCodeRequest request,
+                                                         HttpServletRequest httpServletRequest) {
+        return ApiResponse.success(authService.sendSmsCode(request, httpServletRequest.getRemoteAddr()));
+    }
+
+    @PostMapping("/login/mobile")
+    public ApiResponse<MobileCodeLoginResponse> mobileCodeLogin(@Valid @RequestBody MobileCodeLoginRequest request) {
+        return ApiResponse.success(authService.mobileCodeLogin(request));
+    }
+
     @PostMapping("/refresh")
     public ApiResponse<AuthTokenResponse> refresh(@Valid @RequestBody RefreshTokenRequest request) {
         return ApiResponse.success(authService.refreshUserToken(request));

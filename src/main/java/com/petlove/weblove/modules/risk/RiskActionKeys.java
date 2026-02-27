@@ -7,6 +7,8 @@ public final class RiskActionKeys {
     public static final String FEEDING_PROVIDER_PROFILE_ACTIVATE = "FEEDING_PROVIDER_PROFILE_ACTIVATE";
     public static final String FEEDING_ORDER_CREATE = "FEEDING_ORDER_CREATE";
     public static final String RESCUE_CLUE_SUBMIT = "RESCUE_CLUE_SUBMIT";
+    public static final String AUTH_SMS_SEND = "AUTH_SMS_SEND";
+    public static final String AUTH_LOGIN_MOBILE = "AUTH_LOGIN_MOBILE";
 
     private RiskActionKeys() {
     }

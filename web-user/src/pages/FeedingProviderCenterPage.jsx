@@ -166,7 +166,7 @@ function FeedingProviderCenterPage() {
             </label>
           </div>
 
-          {message ? <p className="helper-text">{message}</p> : null}
+          {message ? <p className="helper-text notice-text">{message}</p> : null}
           <button className="primary-btn" type="submit" disabled={saving}>
             {saving ? "保存中..." : "保存资料"}
           </button>

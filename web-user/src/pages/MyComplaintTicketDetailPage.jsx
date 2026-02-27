@@ -116,7 +116,7 @@ function MyComplaintTicketDetailPage() {
 
       <section className="card page-form-card">
         {loading ? <p className="helper-text">加载中...</p> : null}
-        {notice ? <p className="helper-text">{notice}</p> : null}
+        {notice ? <p className="helper-text notice-text">{notice}</p> : null}
 
         {detail ? (
           <div className="detail-layout-single">

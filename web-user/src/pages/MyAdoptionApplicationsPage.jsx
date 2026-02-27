@@ -79,7 +79,7 @@ function MyAdoptionApplicationsPage() {
 
         {loading ? <p className="helper-text">加载中...</p> : null}
         {error ? <p className="error-text">{error}</p> : null}
-        {notice ? <p className="helper-text">{notice}</p> : null}
+        {notice ? <p className="helper-text notice-text">{notice}</p> : null}
 
         <div className="list-stack">
           {result.items.map((item) => (

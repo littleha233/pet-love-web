@@ -84,14 +84,14 @@ function MyRehomePostsPage() {
             <option value="CLOSED">已关闭</option>
             <option value="OFFLINE">已下架</option>
           </select>
-          <Link to="/adoption/rehome/new" className="primary-btn">
+          <Link to="/adoption/post/new" className="primary-btn">
             新建送养帖
           </Link>
         </div>
 
         {loading ? <p className="helper-text">加载中...</p> : null}
         {error ? <p className="error-text">{error}</p> : null}
-        {notice ? <p className="helper-text">{notice}</p> : null}
+        {notice ? <p className="helper-text notice-text">{notice}</p> : null}
 
         <div className="list-stack">
           {result.items.map((item) => (
@@ -110,7 +110,7 @@ function MyRehomePostsPage() {
                 {item.rejectReasonText ? <p className="error-text">驳回原因：{item.rejectReasonText}</p> : null}
               </div>
               <div className="list-card-actions">
-                <Link className="secondary-btn" to={`/me/adoption/posts/${item.postId}/applications`}>
+                <Link className="secondary-btn" to={`/adoption/my-posts/${item.postId}/applications`}>
                   查看收到的申请
                 </Link>
                 {item.status === "REJECTED" ? (

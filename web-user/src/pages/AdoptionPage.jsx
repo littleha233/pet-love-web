@@ -90,7 +90,7 @@ function AdoptionPage() {
           <button className="primary-btn" type="submit">
             搜索
           </button>
-          <Link className="secondary-btn" to="/adoption/rehome/new">
+          <Link className="secondary-btn" to="/adoption/post/new">
             发布送养帖
           </Link>
         </form>

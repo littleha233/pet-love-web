@@ -166,8 +166,8 @@ function FeedingProviderOrderDetailPage() {
             ) : null}
           </div>
 
-          {message ? <p className="helper-text">{message}</p> : null}
-          <Link className="secondary-btn full-btn" to="/provider/feeding/orders">
+          {message ? <p className="helper-text notice-text">{message}</p> : null}
+          <Link className="secondary-btn full-btn" to="/feeding/my-jobs">
             返回我的接单
           </Link>
         </aside>

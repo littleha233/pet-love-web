@@ -98,7 +98,7 @@ function MyFeedingOrdersPage() {
               <p className="helper-text">更新时间：{formatDateTime(item.updatedAt)}</p>
             </div>
             <div className="list-card-actions">
-              <Link className="secondary-btn" to={`/me/feeding/orders/${item.orderId}`}>
+              <Link className="secondary-btn" to={`/feeding/my-orders/${item.orderId}`}>
                 查看详情
               </Link>
               {item.status === "PENDING_PROVIDER_ACCEPT" || item.status === "CONFIRMED" ? (

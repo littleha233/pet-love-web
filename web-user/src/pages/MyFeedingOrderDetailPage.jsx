@@ -188,8 +188,8 @@ function MyFeedingOrderDetailPage() {
             ) : null}
           </div>
 
-          {message ? <p className="helper-text">{message}</p> : null}
-          <Link className="secondary-btn full-btn" to="/me/feeding/orders">
+          {message ? <p className="helper-text notice-text">{message}</p> : null}
+          <Link className="secondary-btn full-btn" to="/feeding/my-orders">
             返回我的订单
           </Link>
         </aside>

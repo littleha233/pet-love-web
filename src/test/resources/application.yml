@@ -27,6 +27,20 @@ app:
     otp-ttl-seconds: 300
     otp-resend-seconds: 1
     mock-otp-enabled: true
+    sms:
+      enabled: true
+      provider: mock
+      sign-name: PetLoveTest
+      template-login-code: LOGIN_CODE_TEST
+      code-ttl-seconds: 300
+      code-length: 6
+      cooldown-seconds: 60
+      daily-limit-per-mobile: 10
+      daily-limit-per-ip: 30
+      max-attempts: 5
+      hash-pepper: test-sms-pepper
+      expose-mock-code-in-response: true
+      mock-code: "123456"
   storage:
     type: local
     local-root: ./target/test-uploads

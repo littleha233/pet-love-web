@@ -141,7 +141,7 @@ function AdminCityFeaturePage() {
         </form>
 
         {loading ? <p className="helper-text">加载中...</p> : null}
-        {notice ? <p className="helper-text">{notice}</p> : null}
+        {notice ? <p className="helper-text notice-text">{notice}</p> : null}
 
         <div className="list-stack">
           {result.items.map((item) => (

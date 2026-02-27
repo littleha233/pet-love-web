@@ -232,7 +232,7 @@ function RescueClueSubmitPage() {
             </div>
           ) : null}
 
-          {notice ? <p className="helper-text">{notice}</p> : null}
+          {notice ? <p className="helper-text notice-text">{notice}</p> : null}
 
           <button className="primary-btn" type="submit" disabled={submitting || uploading}>
             {uploading ? "上传中..." : submitting ? "提交中..." : "提交线索"}

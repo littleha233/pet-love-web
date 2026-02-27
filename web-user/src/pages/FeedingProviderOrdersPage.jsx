@@ -111,7 +111,7 @@ function FeedingProviderOrdersPage() {
               <p className="helper-text">更新时间：{formatDateTime(item.updatedAt)}</p>
             </div>
             <div className="list-card-actions">
-              <Link className="secondary-btn" to={`/provider/feeding/orders/${item.orderId}`}>
+              <Link className="secondary-btn" to={`/feeding/my-jobs/${item.orderId}`}>
                 查看详情
               </Link>
               {item.status === "PENDING_PROVIDER_ACCEPT" ? (
