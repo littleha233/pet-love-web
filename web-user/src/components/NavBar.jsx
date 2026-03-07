@@ -4,7 +4,6 @@ import { NavLink, Link, useLocation } from "react-router-dom";
 const links = [
   { to: "/", label: "首页", end: true },
   { to: "/adoption", label: "领养" },
-  { to: "/feeding", label: "喂养" },
   { to: "/rescue", label: "救助" },
   { to: "/community", label: "社区" },
   { to: "/me", label: "我的" }

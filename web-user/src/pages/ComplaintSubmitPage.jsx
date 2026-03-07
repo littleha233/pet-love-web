@@ -103,8 +103,6 @@ function ComplaintSubmitPage() {
               <select name="targetType" value={form.targetType} onChange={onChange} required>
                 <option value="ADOPTION_POST">送养帖子</option>
                 <option value="ADOPTION_APPLICATION">领养申请</option>
-                <option value="FEEDING_ORDER">喂养订单</option>
-                <option value="FEEDING_PROVIDER">喂养服务者</option>
                 <option value="RESCUE_RESOURCE">救助资源</option>
                 <option value="USER">用户</option>
                 <option value="OTHER">其他</option>

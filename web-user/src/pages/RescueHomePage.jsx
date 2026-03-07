@@ -15,7 +15,7 @@ function RescueHomePage() {
       <section className="card page-banner fade-up">
         <p className="eyebrow">宠物救助</p>
         <h1>先看指引，再找资源，必要时提交线索</h1>
-        <p>这一页聚焦救助信息闭环：遇到情况先按步骤处理，再联系同城资源，最后留存线索便于跟进。</p>
+        <p>先把现场处理正确，再进入资源协同与线索跟进。每一步都应可回溯、可补充。</p>
       </section>
 
       <section className="card page-form-card fade-up" style={{ "--delay": "60ms" }}>
@@ -31,6 +31,9 @@ function RescueHomePage() {
           </Link>
           <Link className="secondary-btn" to="/me/rescue/clues">
             我的线索
+          </Link>
+          <Link className="secondary-btn" to="/support/complaints/new">
+            提交投诉工单
           </Link>
         </div>
       </section>

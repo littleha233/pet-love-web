@@ -15,13 +15,16 @@ function AdoptionModulePage() {
       <section className="card module-hero fade-up">
         <p className="eyebrow">领养模块</p>
         <h1>领养与送养</h1>
-        <p>帮助宠物找到新家，页面结构聚焦「浏览、申请、沟通、回访」四个关键阶段。</p>
+        <p>帮助宠物找到新家，流程聚焦「浏览、申请、沟通、回访」四个关键阶段。</p>
         <div className="hero-actions">
           <Link className="primary-btn" to="/adoption/list">
             查看可领养
           </Link>
           <Link className="secondary-btn" to="/adoption/post/new">
             发布送养
+          </Link>
+          <Link className="secondary-btn" to="/rescue">
+            进入救助模块
           </Link>
         </div>
       </section>

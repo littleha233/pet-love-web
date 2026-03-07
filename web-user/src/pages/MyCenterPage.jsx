@@ -7,7 +7,7 @@ function MyCenterPage() {
       <section className="card page-banner fade-up">
         <p className="eyebrow">我的</p>
         <h1>个人中心</h1>
-        <p>按业务线查看我的数据，减少在全局导航中反复跳转。</p>
+        <p>按业务线查看我的数据，当前聚焦领养与救助两条主流程。</p>
       </section>
 
       <section className="module-entry-grid">
@@ -22,25 +22,25 @@ function MyCenterPage() {
           primaryAction={{ label: "进入领养模块", to: "/adoption" }}
         />
         <ModuleEntryCard
-          eyebrow="喂养"
-          title="订单与接单中心"
-          description="查看我的喂养订单，也可切换到服务者视角处理接单。"
+          eyebrow="救助"
+          title="我的线索与处理进展"
+          description="查看线索状态，补充信息，跟进平台处理结果。"
           links={[
-            { label: "我的喂养单", to: "/feeding/my-orders" },
-            { label: "我的接单", to: "/feeding/my-jobs" }
+            { label: "我的救助线索", to: "/me/rescue/clues" },
+            { label: "提交新线索", to: "/rescue/clues/new" }
           ]}
-          primaryAction={{ label: "进入喂养模块", to: "/feeding" }}
+          primaryAction={{ label: "进入救助模块", to: "/rescue" }}
           delay="70ms"
         />
       </section>
 
       <section className="card page-form-card fade-up" style={{ "--delay": "120ms" }}>
         <div className="action-row">
-          <Link className="secondary-btn" to="/me/rescue/clues">
-            我的救助线索
-          </Link>
           <Link className="secondary-btn" to="/me/support/complaints">
             我的投诉工单
+          </Link>
+          <Link className="secondary-btn" to="/support/complaints/new">
+            提交投诉工单
           </Link>
           <Link className="secondary-btn" to="/auth/mobile-login">
             短信登录
