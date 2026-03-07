@@ -7,7 +7,7 @@ import {
   listMyRehomePosts,
   resubmitRehomePost
 } from "../api/adoptionApi";
-import { formatDateTime } from "../utils/format";
+import { formatDateTime, formatPublicText } from "../utils/format";
 
 const PAGE_SIZE = 10;
 
@@ -40,7 +40,7 @@ function MyRehomePostsPage() {
   async function onResubmit(postId) {
     try {
       await resubmitRehomePost(postId);
-      setNotice("帖子已重新提交审核。");
+      setNotice("帖子已重新提交。");
       await loadData();
     } catch (err) {
       setNotice(err.message || "重提失败");
@@ -65,7 +65,7 @@ function MyRehomePostsPage() {
       <section className="card page-banner">
         <p className="eyebrow">我的发布</p>
         <h1>查看帖子状态与处理进度</h1>
-        <p>支持驳回后重提、已发布帖子关闭、进入申请管理页处理申请。</p>
+        <p>可重新提交被驳回内容、关闭已发布帖子，并管理收到的领养申请。</p>
       </section>
 
       <section className="card page-form-card">
@@ -98,7 +98,7 @@ function MyRehomePostsPage() {
             <article key={item.postId} className="list-card">
               <div className="list-card-main">
                 <h3>
-                  <Link to={`/adoption/${item.postId}`}>{item.title}</Link>
+                  <Link to={`/adoption/${item.postId}`}>{formatPublicText(item.title)}</Link>
                 </h3>
                 <p className="helper-text">
                   {item.cityName} · 申请数 {item.applicationCount} · 更新时间 {formatDateTime(item.updatedAt)}

@@ -20,12 +20,12 @@ const rescueFlowSteps = [
 
 const supportPreviewItems = [
   {
-    title: "投诉工单入口",
-    subtitle: "针对领养与救助相关问题提交工单并跟踪处理。",
+    title: "问题反馈入口",
+    subtitle: "针对领养与救助相关问题提交反馈并跟踪处理。",
     to: "/support/complaints/new"
   },
   {
-    title: "我的投诉记录",
+    title: "我的反馈记录",
     subtitle: "查看回复、补充证据、确认处理结果。",
     to: "/me/support/complaints"
   },
@@ -135,7 +135,7 @@ function HomePage() {
             title="保障与反馈"
             description="问题可追踪、证据可补充、进展可查看。"
             items={supportPreviewItems}
-            action={{ label: "提交投诉工单", to: "/support/complaints/new" }}
+            action={{ label: "提交问题反馈", to: "/support/complaints/new" }}
           />
         </div>
       </section>
@@ -144,7 +144,7 @@ function HomePage() {
         <div className="trust-footer-header">
           <p className="eyebrow">平台保障</p>
           <h3>温暖治愈，也要专业可信</h3>
-          <p>审核、线索处理、投诉工单都应有明确闭环。</p>
+          <p>领养审核、线索处理与问题反馈都应有明确闭环。</p>
         </div>
         <div className="trust-badge-row">
           {homepageTrustBadges.map((item) => (
@@ -153,7 +153,7 @@ function HomePage() {
         </div>
         <div className="trust-footer-actions">
           <Link className="primary-btn" to="/support/complaints/new">
-            投诉与保障入口
+            问题反馈入口
           </Link>
           <Link className="secondary-btn" to="/rescue/resources">
             查看救助资源

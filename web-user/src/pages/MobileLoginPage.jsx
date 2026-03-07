@@ -86,7 +86,6 @@ function MobileLoginPage() {
   const [sending, setSending] = useState(false);
   const [loggingIn, setLoggingIn] = useState(false);
   const [notice, setNotice] = useState("");
-  const [mockCode, setMockCode] = useState("");
 
   useEffect(() => {
     if (countdown <= 0) {
@@ -130,7 +129,6 @@ function MobileLoginPage() {
 
     setSending(true);
     setNotice("");
-    setMockCode("");
 
     try {
       const data = await sendMobileSmsCode({
@@ -141,7 +139,6 @@ function MobileLoginPage() {
       });
       const nextCooldown = Number(data?.cooldownSeconds || 60);
       setCountdown(Number.isFinite(nextCooldown) && nextCooldown > 0 ? nextCooldown : 60);
-      setMockCode(data?.mockCode || "");
       setNotice("验证码已发送，请注意查收短信");
     } catch (err) {
       setNotice(err.message || "发送验证码失败");
@@ -190,7 +187,7 @@ function MobileLoginPage() {
           <ul className="auth-login-tags">
             <li>短信登录</li>
             <li>自动注册</li>
-            <li>风控限流</li>
+            <li>安全保护</li>
           </ul>
         </aside>
 
@@ -258,11 +255,10 @@ function MobileLoginPage() {
             </div>
 
             <button className="primary-btn auth-submit-btn" type="submit" disabled={loggingIn || sending}>
-              {loggingIn ? "登录中..." : "验证码登录 / 自动注册"}
+              {loggingIn ? "登录中..." : "验证码登录"}
             </button>
 
             <p className="helper-text auth-security-tip">发送验证码前需通过图形校验，可降低脚本滥发风险。</p>
-            {mockCode ? <p className="helper-text">开发环境验证码：{mockCode}</p> : null}
             {notice ? <p className="helper-text notice-text">{notice}</p> : null}
           </form>
         </section>

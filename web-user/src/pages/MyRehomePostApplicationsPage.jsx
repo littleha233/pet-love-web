@@ -7,7 +7,7 @@ import {
   handleAdoptionApplication,
   listPostApplications
 } from "../api/adoptionApi";
-import { formatDateTime } from "../utils/format";
+import { formatDateTime, formatPublicText } from "../utils/format";
 
 const PAGE_SIZE = 10;
 
@@ -63,7 +63,7 @@ function MyRehomePostApplicationsPage() {
     <div className="page-stack">
       <section className="card page-banner">
         <p className="eyebrow">收到的申请</p>
-        <h1>{post ? post.title : `帖子 #${postId}`}</h1>
+        <h1>{post ? formatPublicText(post.title) : "帖子申请列表"}</h1>
         <p>
           <Link to="/adoption/my-posts">返回我的发布</Link>
         </p>
@@ -79,7 +79,7 @@ function MyRehomePostApplicationsPage() {
             <article key={item.applicationId} className="list-card">
               <div className="list-card-main">
                 <p>
-                  申请人：{item.applicant?.nickname || `用户${item.applicant?.userId || "-"}`}
+                  申请人：{formatPublicText(item.applicant?.nickname) || "爱心领养人"}
                   {item.applicant?.isRealNameVerified ? "（已实名）" : ""}
                 </p>
                 <p className="helper-text">提交时间：{formatDateTime(item.createdAt)}</p>

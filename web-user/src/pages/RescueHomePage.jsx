@@ -33,7 +33,7 @@ function RescueHomePage() {
             我的线索
           </Link>
           <Link className="secondary-btn" to="/support/complaints/new">
-            提交投诉工单
+            提交问题反馈
           </Link>
         </div>
       </section>

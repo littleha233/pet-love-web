@@ -6,7 +6,7 @@ import {
   listMyAdoptionApplications,
   withdrawAdoptionApplication
 } from "../api/adoptionApi";
-import { formatDateTime } from "../utils/format";
+import { formatDateTime, formatPublicText } from "../utils/format";
 
 const PAGE_SIZE = 10;
 
@@ -57,7 +57,7 @@ function MyAdoptionApplicationsPage() {
       <section className="card page-banner">
         <p className="eyebrow">我的领养申请</p>
         <h1>查看申请进度</h1>
-        <p>可按状态过滤，`SUBMITTED` 状态支持撤回。</p>
+        <p>可按状态过滤，待处理中的申请支持撤回。</p>
       </section>
 
       <section className="card page-form-card">
@@ -86,7 +86,7 @@ function MyAdoptionApplicationsPage() {
             <article key={item.applicationId} className="list-card">
               <div className="list-card-main">
                 <h3>
-                  <Link to={`/adoption/${item.postId}`}>{item.postTitle}</Link>
+                  <Link to={`/adoption/${item.postId}`}>{formatPublicText(item.postTitle)}</Link>
                 </h3>
                 <p className="helper-text">城市：{item.cityName}</p>
                 <p className="helper-text">提交时间：{formatDateTime(item.createdAt)}</p>
@@ -94,7 +94,9 @@ function MyAdoptionApplicationsPage() {
                 <ApplicationStatusTag status={item.status} />
               </div>
               <div className="list-card-actions">
-                {item.postCoverImageUrl ? <img src={item.postCoverImageUrl} alt={item.postTitle} className="tiny-cover" /> : null}
+                {item.postCoverImageUrl ? (
+                  <img src={item.postCoverImageUrl} alt={formatPublicText(item.postTitle)} className="tiny-cover" />
+                ) : null}
                 {item.status === "SUBMITTED" ? (
                   <button className="secondary-btn" type="button" onClick={() => onWithdraw(item.applicationId)}>
                     撤回申请

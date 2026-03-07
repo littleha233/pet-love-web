@@ -6,6 +6,13 @@ import AdoptionPostCard from "../components/AdoptionPostCard.jsx";
 import { listAdoptionPosts } from "../api/adoptionApi";
 
 const PAGE_SIZE = 9;
+const CITY_OPTIONS = [
+  { code: "", label: "全部城市" },
+  { code: "310100", label: "上海" },
+  { code: "330100", label: "杭州" },
+  { code: "320100", label: "南京" },
+  { code: "440300", label: "深圳" }
+];
 
 function AdoptionPage() {
   const [draft, setDraft] = useState({ cityCode: "", petType: "", keyword: "" });
@@ -64,18 +71,23 @@ function AdoptionPage() {
     <div className="page-stack">
       <section className="card page-banner fade-up">
         <p className="eyebrow">领养列表</p>
-        <h1>送养帖公开展示（仅已发布）</h1>
-        <p>支持按城市、宠物类型、关键词筛选，点击卡片可查看详情并提交申请。</p>
+        <h1>寻找适合的领养信息</h1>
+        <p>支持按城市、宠物类型和关键词筛选，点击卡片即可查看详情并提交申请。</p>
       </section>
 
       <section className="card page-form-card fade-up" style={{ "--delay": "70ms" }}>
         <form className="inline-filter-form" onSubmit={onApplyFilters}>
-          <input
+          <select
             name="cityCode"
             value={draft.cityCode}
             onChange={onFilterChange}
-            placeholder="城市编码（如 310100）"
-          />
+          >
+            {CITY_OPTIONS.map((city) => (
+              <option key={city.code || "all"} value={city.code}>
+                {city.label}
+              </option>
+            ))}
+          </select>
           <select name="petType" value={draft.petType} onChange={onFilterChange}>
             <option value="">全部类型</option>
             <option value="CAT">猫</option>
@@ -99,8 +111,8 @@ function AdoptionPage() {
       <section>
         <SectionHeader
           eyebrow="帖子"
-          title="真实 API 数据"
-          description="数据来源 /api/v1/adoptions/posts，仅展示 PUBLISHED 帖子。"
+          title="在寻找家的孩子"
+          description="以下为当前可申请的送养信息。"
         />
         {loading ? <p className="helper-text">加载中...</p> : null}
         {error ? <p className="error-text">{error}</p> : null}

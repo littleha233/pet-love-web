@@ -4,19 +4,32 @@ import { submitRescueClue, uploadRescueCluePhoto } from "../api/rescueApi";
 
 const EMPTY_FORM = {
   cityCode: "",
-  cityName: "",
   districtName: "",
   locationText: "",
-  geoLat: "",
-  geoLng: "",
   petType: "UNKNOWN",
   estimatedCount: "1",
   urgencyLevel: "MEDIUM",
-  conditionTagsText: "",
+  conditionTags: [],
   description: "",
   contactName: "",
   contactMobile: ""
 };
+
+const CITY_OPTIONS = [
+  { code: "310100", name: "上海" },
+  { code: "330100", name: "杭州" },
+  { code: "320100", name: "南京" },
+  { code: "440300", name: "深圳" }
+];
+
+const CONDITION_OPTIONS = [
+  { value: "INJURED", label: "受伤" },
+  { value: "BLEEDING", label: "出血" },
+  { value: "WEAK", label: "虚弱" },
+  { value: "TRAPPED", label: "受困" },
+  { value: "KITTEN", label: "幼猫" },
+  { value: "PUPPY", label: "幼犬" }
+];
 
 function RescueClueSubmitPage() {
   const navigate = useNavigate();
@@ -29,6 +42,23 @@ function RescueClueSubmitPage() {
   function onChange(event) {
     const { name, value } = event.target;
     setForm((prev) => ({ ...prev, [name]: value }));
+  }
+
+  function onCityChange(event) {
+    const cityCode = event.target.value;
+    setForm((prev) => ({ ...prev, cityCode }));
+  }
+
+  function onToggleCondition(tagValue) {
+    setForm((prev) => {
+      const selected = prev.conditionTags.includes(tagValue);
+      return {
+        ...prev,
+        conditionTags: selected
+          ? prev.conditionTags.filter((item) => item !== tagValue)
+          : [...prev.conditionTags, tagValue]
+      };
+    });
   }
 
   async function onSelectPhotos(event) {
@@ -72,22 +102,17 @@ function RescueClueSubmitPage() {
     setSubmitting(true);
     setNotice("");
 
-    const conditionTags = (form.conditionTagsText || "")
-      .split(",")
-      .map((item) => item.trim())
-      .filter(Boolean);
+    const selectedCity = CITY_OPTIONS.find((city) => city.code === form.cityCode);
 
     const payload = {
       cityCode: form.cityCode.trim(),
-      cityName: form.cityName.trim(),
+      cityName: selectedCity?.name || "",
       districtName: form.districtName.trim() || undefined,
       locationText: form.locationText.trim(),
-      geoLat: form.geoLat.trim() ? Number(form.geoLat.trim()) : undefined,
-      geoLng: form.geoLng.trim() ? Number(form.geoLng.trim()) : undefined,
       petType: form.petType || undefined,
       estimatedCount: form.estimatedCount.trim() ? Number(form.estimatedCount.trim()) : undefined,
       urgencyLevel: form.urgencyLevel,
-      conditionTags: conditionTags.length > 0 ? conditionTags : undefined,
+      conditionTags: form.conditionTags.length > 0 ? form.conditionTags : undefined,
       description: form.description.trim(),
       contactName: form.contactName.trim(),
       contactMobile: form.contactMobile.trim(),
@@ -110,43 +135,33 @@ function RescueClueSubmitPage() {
       <section className="card page-banner">
         <p className="eyebrow">提交救助线索</p>
         <h1>记录位置与情况，便于后续分流跟进</h1>
-        <p>建议上传 1~9 张现场图片。提交后可在“我的线索”查看状态变化。</p>
+        <p>建议上传 1-9 张现场图片。提交后可在“我的线索”查看进展。</p>
       </section>
 
       <section className="card page-form-card">
         <form className="stack-form" onSubmit={onSubmit}>
           <div className="form-grid-two">
             <label>
-              城市编码*
-              <input name="cityCode" value={form.cityCode} onChange={onChange} maxLength={32} required />
+              城市*
+              <select name="cityCode" value={form.cityCode} onChange={onCityChange} required>
+                <option value="">请选择城市</option>
+                {CITY_OPTIONS.map((city) => (
+                  <option key={city.code} value={city.code}>
+                    {city.name}
+                  </option>
+                ))}
+              </select>
             </label>
-            <label>
-              城市名称*
-              <input name="cityName" value={form.cityName} onChange={onChange} maxLength={64} required />
-            </label>
-          </div>
-
-          <div className="form-grid-two">
             <label>
               区域（可选）
               <input name="districtName" value={form.districtName} onChange={onChange} maxLength={64} />
             </label>
-            <label>
-              位置描述*
-              <input name="locationText" value={form.locationText} onChange={onChange} maxLength={255} required />
-            </label>
           </div>
 
-          <div className="form-grid-two">
-            <label>
-              纬度（可选）
-              <input name="geoLat" value={form.geoLat} onChange={onChange} placeholder="如 31.2304" />
-            </label>
-            <label>
-              经度（可选）
-              <input name="geoLng" value={form.geoLng} onChange={onChange} placeholder="如 121.4737" />
-            </label>
-          </div>
+          <label>
+            位置描述*
+            <input name="locationText" value={form.locationText} onChange={onChange} maxLength={255} required />
+          </label>
 
           <div className="form-grid-two">
             <label>
@@ -180,15 +195,24 @@ function RescueClueSubmitPage() {
                 <option value="EMERGENCY">紧急</option>
               </select>
             </label>
-            <label>
-              情况标签（英文逗号分隔）
-              <input
-                name="conditionTagsText"
-                value={form.conditionTagsText}
-                onChange={onChange}
-                placeholder="INJURED,BLEEDING,KITTEN"
-              />
-            </label>
+            <div>
+              <p>情况标签（可多选）</p>
+              <div className="tag-row">
+                {CONDITION_OPTIONS.map((option) => {
+                  const active = form.conditionTags.includes(option.value);
+                  return (
+                    <button
+                      key={option.value}
+                      type="button"
+                      className={`soft-tag ${active ? "soft-tag-active" : ""}`}
+                      onClick={() => onToggleCondition(option.value)}
+                    >
+                      {option.label}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
           </div>
 
           <label>

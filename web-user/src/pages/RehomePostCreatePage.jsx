@@ -22,6 +22,13 @@ const EMPTY_FORM = {
   specialCareNote: ""
 };
 
+const CITY_OPTIONS = [
+  { code: "310100", name: "上海" },
+  { code: "330100", name: "杭州" },
+  { code: "320100", name: "南京" },
+  { code: "440300", name: "深圳" }
+];
+
 function RehomePostCreatePage() {
   const navigate = useNavigate();
   const [form, setForm] = useState(EMPTY_FORM);
@@ -33,6 +40,16 @@ function RehomePostCreatePage() {
   function onChange(event) {
     const { name, value } = event.target;
     setForm((prev) => ({ ...prev, [name]: value }));
+  }
+
+  function onCityChange(event) {
+    const cityCode = event.target.value;
+    const city = CITY_OPTIONS.find((item) => item.code === cityCode);
+    setForm((prev) => ({
+      ...prev,
+      cityCode,
+      cityName: city ? city.name : ""
+    }));
   }
 
   async function onUpload(event) {
@@ -108,7 +125,7 @@ function RehomePostCreatePage() {
     try {
       await createRehomePost(payload);
       navigate("/adoption/my-posts", {
-        state: { notice: "发布成功，帖子状态为待审核。" }
+        state: { notice: "发布成功，平台会尽快完成审核并展示。" }
       });
     } catch (err) {
       setMessage(err.message || "发布失败");
@@ -121,8 +138,8 @@ function RehomePostCreatePage() {
     <div className="page-stack">
       <section className="card page-banner">
         <p className="eyebrow">发布送养帖</p>
-        <h1>发布后将进入审核队列</h1>
-        <p>需要用户登录且实名认证通过，图片文件会校验归属和 READY 状态。</p>
+        <h1>填写完整信息，提升匹配效率</h1>
+        <p>请尽量补充宠物情况和生活习惯，便于潜在领养人快速判断是否合适。</p>
       </section>
 
       <section className="card page-form-card">
@@ -138,12 +155,15 @@ function RehomePostCreatePage() {
 
           <div className="form-grid-two">
             <label>
-              城市编码*
-              <input name="cityCode" value={form.cityCode} onChange={onChange} required />
-            </label>
-            <label>
-              城市名称*
-              <input name="cityName" value={form.cityName} onChange={onChange} required />
+              所在城市*
+              <select name="cityCode" value={form.cityCode} onChange={onCityChange} required>
+                <option value="">请选择城市</option>
+                {CITY_OPTIONS.map((city) => (
+                  <option key={city.code} value={city.code}>
+                    {city.name}
+                  </option>
+                ))}
+              </select>
             </label>
             <label className="full-row">
               区县
@@ -173,7 +193,7 @@ function RehomePostCreatePage() {
           </div>
 
           <button className="primary-btn" type="submit" disabled={submitting || uploading}>
-            {submitting ? "提交中..." : "发布并提交审核"}
+            {submitting ? "提交中..." : "发布送养信息"}
           </button>
           {message ? <p className="helper-text notice-text">{message}</p> : null}
         </form>

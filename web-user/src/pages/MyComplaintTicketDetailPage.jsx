@@ -7,7 +7,7 @@ import {
   getMyComplaintTicketDetail,
   replyComplaintTicket
 } from "../api/opsApi";
-import { formatDateTime } from "../utils/format";
+import { formatComplaintTargetType, formatDateTime } from "../utils/format";
 
 function MyComplaintTicketDetailPage() {
   const { ticketId } = useParams();
@@ -31,7 +31,7 @@ function MyComplaintTicketDetailPage() {
         }
       } catch (err) {
         if (!cancelled) {
-          setNotice(err.message || "加载工单详情失败");
+          setNotice(err.message || "加载反馈详情失败");
         }
       } finally {
         if (!cancelled) {
@@ -87,7 +87,7 @@ function MyComplaintTicketDetailPage() {
   }
 
   async function onCancel() {
-    if (!window.confirm("确认取消该投诉工单吗？")) {
+    if (!window.confirm("确认取消该反馈单吗？")) {
       return;
     }
 
@@ -95,10 +95,10 @@ function MyComplaintTicketDetailPage() {
     setNotice("");
     try {
       await cancelComplaintTicket(ticketId);
-      setNotice("工单已取消");
+      setNotice("反馈单已取消");
       await reloadDetail();
     } catch (err) {
-      setNotice(err.message || "取消工单失败");
+      setNotice(err.message || "取消反馈失败");
     } finally {
       setCancelling(false);
     }
@@ -108,9 +108,9 @@ function MyComplaintTicketDetailPage() {
     <div className="page-stack">
       <section className="card page-banner">
         <p className="eyebrow">帮助与投诉</p>
-        <h1>{detail ? `工单 #${detail.ticketNo}` : `工单 #${ticketId}`}</h1>
+        <h1>{detail ? `反馈单 ${detail.ticketNo}` : "反馈详情"}</h1>
         <p>
-          <Link to="/me/support/complaints">返回我的投诉列表</Link>
+          <Link to="/me/support/complaints">返回我的反馈列表</Link>
         </p>
       </section>
 
@@ -123,15 +123,14 @@ function MyComplaintTicketDetailPage() {
             <div className="tag-row">
               <ComplaintStatusTag status={detail.status} />
               <ComplaintPriorityTag priority={detail.priority} />
-              <span className="soft-tag">对象：{detail.targetType}</span>
+              <span className="soft-tag">问题类别：{formatComplaintTargetType(detail.targetType)}</span>
             </div>
 
             <p>标题：{detail.title}</p>
             <p>内容：{detail.content}</p>
-            <p>对象 ID：{detail.targetId || "-"}</p>
             <p>联系手机号：{detail.contactMobileMasked || "-"}</p>
-            <p>分流备注：{detail.triageNote || "-"}</p>
-            <p>处理备注：{detail.resolutionNote || "-"}</p>
+            {detail.triageNote ? <p>平台初步判断：{detail.triageNote}</p> : null}
+            {detail.resolutionNote ? <p>处理结果说明：{detail.resolutionNote}</p> : null}
             <p>
               创建时间：{formatDateTime(detail.createdAt)} · 更新时间：{formatDateTime(detail.updatedAt)}
             </p>
@@ -175,7 +174,7 @@ function MyComplaintTicketDetailPage() {
 
             {canCancel ? (
               <button className="secondary-btn" type="button" disabled={cancelling} onClick={onCancel}>
-                {cancelling ? "取消中..." : "取消工单"}
+                {cancelling ? "取消中..." : "取消反馈"}
               </button>
             ) : null}
           </div>

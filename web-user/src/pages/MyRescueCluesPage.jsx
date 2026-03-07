@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import Pagination from "../components/Pagination.jsx";
 import RescueClueStatusTag from "../components/RescueClueStatusTag.jsx";
 import { listMyRescueClues } from "../api/rescueApi";
-import { formatDateTime } from "../utils/format";
+import { formatDateTime, formatPetType, formatRescueUrgency } from "../utils/format";
 
 const PAGE_SIZE = 10;
 
@@ -56,7 +56,7 @@ function MyRescueCluesPage() {
       <section className="card page-banner">
         <p className="eyebrow">我的线索</p>
         <h1>查看救助线索处理进度</h1>
-        <p>仅可查看本人提交的线索，状态会随后台分流处理更新。</p>
+        <p>仅可查看本人提交的线索，状态会随平台处理进展持续更新。</p>
       </section>
 
       <section className="card page-form-card">
@@ -82,15 +82,13 @@ function MyRescueCluesPage() {
           {result.items.map((item) => (
             <article key={item.clueId} className="list-card">
               <div className="list-card-main">
-                <h3>
-                  #{item.clueNo}
-                </h3>
+                <h3>线索编号：{item.clueNo}</h3>
                 <p className="helper-text">
                   {item.cityName}
-                  {item.districtName ? ` · ${item.districtName}` : ""} · {item.petType || "未知类型"}
+                  {item.districtName ? ` · ${item.districtName}` : ""} · {formatPetType(item.petType)}
                 </p>
                 <p className="helper-text">
-                  紧急程度：{item.urgencyLevel || "-"} · 更新时间：{formatDateTime(item.updatedAt)}
+                  紧急程度：{formatRescueUrgency(item.urgencyLevel)} · 更新时间：{formatDateTime(item.updatedAt)}
                 </p>
                 <div className="tag-row">
                   <RescueClueStatusTag status={item.status} />

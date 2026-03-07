@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getRescueResourceDetail } from "../api/rescueApi";
-import { formatDateTime } from "../utils/format";
+import { formatDateTime, formatPetType, formatRescueResourceType } from "../utils/format";
 
 function RescueResourceDetailPage() {
   const { resourceId } = useParams();
@@ -53,7 +53,7 @@ function RescueResourceDetailPage() {
         <p className="eyebrow">资源详情</p>
         <h1>{detail.name}</h1>
         <p>
-          类型：{detail.resourceType || "-"} · {detail.cityName}
+          类型：{formatRescueResourceType(detail.resourceType)} · {detail.cityName || "未标注城市"}
           {detail.districtName ? ` · ${detail.districtName}` : ""}
         </p>
       </section>
@@ -73,7 +73,7 @@ function RescueResourceDetailPage() {
           <div className="tag-row">
             {(detail.acceptPetTypes || []).map((item) => (
               <span key={item} className="soft-tag">
-                {item}
+                {formatPetType(item)}
               </span>
             ))}
             {(detail.capabilityTags || []).map((item) => (
@@ -85,7 +85,14 @@ function RescueResourceDetailPage() {
 
           <h3>说明</h3>
           <p>{detail.description || "暂无说明"}</p>
-          <p>来源：{detail.sourceUrl || "-"}</p>
+          {detail.sourceUrl ? (
+            <p>
+              机构主页：
+              <a href={detail.sourceUrl} target="_blank" rel="noreferrer">
+                查看链接
+              </a>
+            </p>
+          ) : null}
           <p>核验时间：{formatDateTime(detail.verifiedAt)}</p>
         </article>
 

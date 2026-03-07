@@ -4,7 +4,6 @@ import { submitComplaintTicket, uploadComplaintEvidence } from "../api/opsApi";
 
 const EMPTY_FORM = {
   targetType: "OTHER",
-  targetId: "",
   title: "",
   content: "",
   priority: "MEDIUM",
@@ -68,7 +67,6 @@ function ComplaintSubmitPage() {
 
     const payload = {
       targetType: form.targetType,
-      targetId: form.targetId.trim() ? Number(form.targetId.trim()) : undefined,
       title: form.title.trim(),
       content: form.content.trim(),
       priority: form.priority,
@@ -78,10 +76,10 @@ function ComplaintSubmitPage() {
 
     try {
       const detail = await submitComplaintTicket(payload);
-      setNotice(`提交成功，工单号：${detail.ticketNo}`);
+      setNotice(`提交成功，反馈单号：${detail.ticketNo}`);
       navigate(`/me/support/complaints/${detail.ticketId}`);
     } catch (err) {
-      setNotice(err.message || "提交投诉失败");
+      setNotice(err.message || "提交反馈失败");
     } finally {
       setSubmitting(false);
     }
@@ -91,28 +89,22 @@ function ComplaintSubmitPage() {
     <div className="page-stack">
       <section className="card page-banner">
         <p className="eyebrow">帮助与投诉</p>
-        <h1>提交投诉工单</h1>
-        <p>可填写对象类型与编号，上传证据图片后提交。平台会在工单里回复处理进展。</p>
+        <h1>提交问题反馈</h1>
+        <p>请尽量描述清楚发生的问题并上传证据图片，平台会尽快处理并回复进展。</p>
       </section>
 
       <section className="card page-form-card">
         <form className="stack-form" onSubmit={onSubmit}>
-          <div className="form-grid-two">
-            <label>
-              投诉对象类型*
-              <select name="targetType" value={form.targetType} onChange={onChange} required>
-                <option value="ADOPTION_POST">送养帖子</option>
-                <option value="ADOPTION_APPLICATION">领养申请</option>
-                <option value="RESCUE_RESOURCE">救助资源</option>
-                <option value="USER">用户</option>
-                <option value="OTHER">其他</option>
-              </select>
-            </label>
-            <label>
-              投诉对象 ID（可选）
-              <input name="targetId" value={form.targetId} onChange={onChange} placeholder="如 10001" />
-            </label>
-          </div>
+          <label>
+            问题类别*
+            <select name="targetType" value={form.targetType} onChange={onChange} required>
+              <option value="ADOPTION_POST">送养信息</option>
+              <option value="ADOPTION_APPLICATION">领养申请</option>
+              <option value="RESCUE_RESOURCE">救助资源</option>
+              <option value="USER">用户行为</option>
+              <option value="OTHER">其他问题</option>
+            </select>
+          </label>
 
           <label>
             标题*
@@ -133,7 +125,7 @@ function ComplaintSubmitPage() {
 
           <div className="form-grid-two">
             <label>
-              优先级
+              紧急程度
               <select name="priority" value={form.priority} onChange={onChange}>
                 <option value="LOW">低</option>
                 <option value="MEDIUM">中</option>

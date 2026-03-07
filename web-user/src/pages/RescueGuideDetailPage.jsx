@@ -1,8 +1,15 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { getRescueGuideDetail } from "../api/rescueApi";
-import { formatDateTime } from "../utils/format";
+import { formatDateTime, formatRescueGuideScenario } from "../utils/format";
 import { markdownToHtml } from "../utils/markdown";
+
+const CITY_NAME_MAP = {
+  "310100": "上海",
+  "330100": "杭州",
+  "320100": "南京",
+  "440300": "深圳"
+};
 
 function RescueGuideDetailPage() {
   const { guideId } = useParams();
@@ -56,7 +63,8 @@ function RescueGuideDetailPage() {
         <p className="eyebrow">救助指引详情</p>
         <h1>{detail.title}</h1>
         <p>
-          场景：{detail.scenarioCode || "-"} · 城市：{detail.cityCode || "全国通用"}
+          场景：{formatRescueGuideScenario(detail.scenarioCode)} · 城市：
+          {detail.cityName || CITY_NAME_MAP[detail.cityCode] || "全国通用"}
         </p>
       </section>
 

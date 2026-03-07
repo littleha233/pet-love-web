@@ -2,7 +2,13 @@ import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import RescueClueStatusTag from "../components/RescueClueStatusTag.jsx";
 import { getMyRescueClueDetail } from "../api/rescueApi";
-import { formatDateTime } from "../utils/format";
+import {
+  formatRescueConditionTag,
+  formatDateTime,
+  formatPetType,
+  formatRescueResourceType,
+  formatRescueUrgency
+} from "../utils/format";
 
 function MyRescueClueDetailPage() {
   const { clueId } = useParams();
@@ -63,19 +69,19 @@ function MyRescueClueDetailPage() {
         <article className="card detail-main">
           <div className="tag-row">
             <RescueClueStatusTag status={detail.status} />
-            <span className="soft-tag">紧急程度：{detail.urgencyLevel}</span>
-            <span className="soft-tag">宠物类型：{detail.petType || "UNKNOWN"}</span>
+            <span className="soft-tag">紧急程度：{formatRescueUrgency(detail.urgencyLevel)}</span>
+            <span className="soft-tag">宠物类型：{formatPetType(detail.petType)}</span>
           </div>
 
           <p>地点：{detail.locationText}</p>
           <p>数量：{detail.estimatedCount ?? "-"}</p>
-          <p>情况标签：{(detail.conditionTags || []).join(" / ") || "-"}</p>
+          <p>情况标签：{(detail.conditionTags || []).map((tag) => formatRescueConditionTag(tag)).join(" / ") || "-"}</p>
           <p>描述：{detail.description}</p>
           <p>
             联系人：{detail.contactName} · 电话：{detail.contactMobileMasked}
           </p>
-          <p>分流备注：{detail.triageNote || "-"}</p>
-          <p>处理结果备注：{detail.resolutionNote || "-"}</p>
+          {detail.triageNote ? <p>平台处理说明：{detail.triageNote}</p> : null}
+          {detail.resolutionNote ? <p>处理结果：{detail.resolutionNote}</p> : null}
           <p>提交时间：{formatDateTime(detail.createdAt)}</p>
           <p>更新时间：{formatDateTime(detail.updatedAt)}</p>
 
@@ -97,7 +103,7 @@ function MyRescueClueDetailPage() {
                 <div className="list-card-main">
                   <h3>{resource.name}</h3>
                   <p className="helper-text">
-                    类型：{resource.resourceType || "-"} · 电话：{resource.contactPhone || "-"}
+                    类型：{formatRescueResourceType(resource.resourceType)} · 电话：{resource.contactPhone || "-"}
                   </p>
                 </div>
                 <div className="list-card-actions">

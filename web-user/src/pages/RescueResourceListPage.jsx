@@ -2,9 +2,16 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import Pagination from "../components/Pagination.jsx";
 import { listRescueResources } from "../api/rescueApi";
-import { formatDateTime } from "../utils/format";
+import { formatDateTime, formatRescueResourceType } from "../utils/format";
 
 const PAGE_SIZE = 10;
+const CITY_OPTIONS = [
+  { code: "", name: "全部城市" },
+  { code: "310100", name: "上海" },
+  { code: "330100", name: "杭州" },
+  { code: "320100", name: "南京" },
+  { code: "440300", name: "深圳" }
+];
 
 function RescueResourceListPage() {
   const [searchParams] = useSearchParams();
@@ -83,7 +90,13 @@ function RescueResourceListPage() {
 
       <section className="card page-form-card">
         <form className="inline-filter-form" onSubmit={onSubmit}>
-          <input name="cityCode" value={draft.cityCode} onChange={onChange} placeholder="城市编码（如 310100）" />
+          <select name="cityCode" value={draft.cityCode} onChange={onChange}>
+            {CITY_OPTIONS.map((city) => (
+              <option key={city.code || "all"} value={city.code}>
+                {city.name}
+              </option>
+            ))}
+          </select>
           <select name="resourceType" value={draft.resourceType} onChange={onChange}>
             <option value="">全部资源类型</option>
             <option value="ANIMAL_HOSPITAL">动物医院</option>
@@ -112,11 +125,9 @@ function RescueResourceListPage() {
           {result.items.map((item) => (
             <article key={item.resourceId} className="list-card">
               <div className="list-card-main">
-                <h3>
-                  #{item.resourceId} {item.name}
-                </h3>
+                <h3>{item.name}</h3>
                 <p className="helper-text">
-                  类型：{item.resourceType || "-"} · 城市：{item.cityName}
+                  类型：{formatRescueResourceType(item.resourceType)} · 城市：{item.cityName || "未标注"}
                   {item.districtName ? ` · ${item.districtName}` : ""}
                 </p>
                 <p>{item.serviceScope || "暂无服务范围说明"}</p>

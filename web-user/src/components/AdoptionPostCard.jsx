@@ -1,13 +1,16 @@
 import { Link } from "react-router-dom";
 import PostStatusTag from "./PostStatusTag";
-import { formatDateTime, formatNumber } from "../utils/format";
+import { formatDateTime, formatNumber, formatPetType, formatPublicText } from "../utils/format";
 
 function AdoptionPostCard({ post }) {
+  const title = formatPublicText(post.title);
+  const petName = formatPublicText(post.petName);
+
   return (
     <article className="adoption-post-card card">
       <Link to={`/adoption/${post.postId}`} className="adoption-post-cover">
         {post.coverImageUrl ? (
-          <img src={post.coverImageUrl} alt={post.title} />
+          <img src={post.coverImageUrl} alt={title || "送养帖子封面"} />
         ) : (
           <div className="image-placeholder">暂无图片</div>
         )}
@@ -18,13 +21,13 @@ function AdoptionPostCard({ post }) {
           <span>{formatDateTime(post.publishedAt)}</span>
         </div>
         <Link to={`/adoption/${post.postId}`} className="adoption-post-title">
-          {post.title}
+          {title}
         </Link>
         <p className="adoption-post-meta">
           {post.cityName || "未知城市"}
           {post.districtName ? ` · ${post.districtName}` : ""}
-          {post.petType ? ` · ${post.petType}` : ""}
-          {post.petName ? ` · ${post.petName}` : ""}
+          {post.petType ? ` · ${formatPetType(post.petType)}` : ""}
+          {petName ? ` · ${petName}` : ""}
         </p>
         <div className="tag-row">
           {(post.temperamentTags || []).slice(0, 4).map((tag) => (

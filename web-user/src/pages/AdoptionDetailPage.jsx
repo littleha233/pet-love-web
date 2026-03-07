@@ -6,12 +6,32 @@ import {
   getAdoptionPostDetail,
   submitAdoptionApplication
 } from "../api/adoptionApi";
-import { formatDateTime, formatNumber, formatReason } from "../utils/format";
+import {
+  formatDateTime,
+  formatNumber,
+  formatPetGender,
+  formatPetType,
+  formatPublicText,
+  formatReason
+} from "../utils/format";
 
 const EMPTY_FORM = {
   message: "",
   livingEnvNote: "",
   petExperienceNote: ""
+};
+
+const NEUTERED_LABELS = {
+  YES: "已绝育",
+  NO: "未绝育",
+  UNKNOWN: "未知"
+};
+
+const VACCINATED_LABELS = {
+  YES: "已完成",
+  PARTIAL: "部分完成",
+  NO: "未接种",
+  UNKNOWN: "未知"
 };
 
 function AdoptionDetailPage() {
@@ -51,8 +71,8 @@ function AdoptionDetailPage() {
     setSubmitting(true);
     setSubmitMessage("");
     try {
-      const created = await submitAdoptionApplication(postId, form);
-      setSubmitMessage(`申请已提交：#${created.applicationId}`);
+      await submitAdoptionApplication(postId, form);
+      setSubmitMessage("申请已提交，发布者确认后会通知你。");
       setForm(EMPTY_FORM);
       setShowApplyForm(false);
       await loadDetail();
@@ -77,12 +97,15 @@ function AdoptionDetailPage() {
 
   const media = detail.pet?.media || [];
   const viewerContext = detail.viewerContext;
+  const postTitle = formatPublicText(detail.title);
+  const petName = formatPublicText(detail.pet?.name);
+  const publisherName = formatPublicText(detail.publisher?.nickname);
 
   return (
     <div className="page-stack">
       <section className="card page-banner">
         <p className="eyebrow">送养帖详情</p>
-        <h1>{detail.title}</h1>
+        <h1>{postTitle}</h1>
         <p>{detail.cityName}{detail.districtName ? ` · ${detail.districtName}` : ""}</p>
       </section>
 
@@ -110,14 +133,14 @@ function AdoptionDetailPage() {
 
             <h3>宠物信息</h3>
             <div className="kv-grid">
-              <p>类型：{detail.pet?.petType || "-"}</p>
-              <p>昵称：{detail.pet?.name || "-"}</p>
-              <p>性别：{detail.pet?.gender || "-"}</p>
+              <p>类型：{formatPetType(detail.pet?.petType)}</p>
+              <p>昵称：{petName || "-"}</p>
+              <p>性别：{formatPetGender(detail.pet?.gender)}</p>
               <p>年龄（月）：{detail.pet?.ageMonths ?? "-"}</p>
-              <p>品种：{detail.pet?.breed || "-"}</p>
+              <p>品种：{formatPublicText(detail.pet?.breed) || "-"}</p>
               <p>体重：{detail.pet?.weightKg ?? "-"}</p>
-              <p>绝育：{detail.pet?.neuteredStatus || "-"}</p>
-              <p>疫苗：{detail.pet?.vaccinatedStatus || "-"}</p>
+              <p>绝育：{NEUTERED_LABELS[detail.pet?.neuteredStatus] || "-"}</p>
+              <p>疫苗：{VACCINATED_LABELS[detail.pet?.vaccinatedStatus] || "-"}</p>
             </div>
             <p>健康说明：{detail.pet?.healthNote || "-"}</p>
             <p>特殊照护：{detail.pet?.specialCareNote || "-"}</p>
@@ -134,7 +157,7 @@ function AdoptionDetailPage() {
 
         <aside className="card detail-side">
           <h3>发布者</h3>
-          <p>{detail.publisher?.nickname || `用户${detail.publisher?.userId}`}</p>
+          <p>{publisherName || "爱心送养人"}</p>
           <p className="helper-text">实名：{detail.publisher?.isRealNameVerified ? "已实名" : "未实名"}</p>
 
           <h3>申请统计</h3>

@@ -8,8 +8,6 @@ import RehomePostCreatePage from "./pages/RehomePostCreatePage.jsx";
 import MyRehomePostsPage from "./pages/MyRehomePostsPage.jsx";
 import MyRehomePostApplicationsPage from "./pages/MyRehomePostApplicationsPage.jsx";
 import MyAdoptionApplicationsPage from "./pages/MyAdoptionApplicationsPage.jsx";
-import AdminAdoptionPostReviewListPage from "./pages/AdminAdoptionPostReviewListPage.jsx";
-import AdminAdoptionPostReviewDetailPage from "./pages/AdminAdoptionPostReviewDetailPage.jsx";
 import RescueHomePage from "./pages/RescueHomePage.jsx";
 import RescueGuideListPage from "./pages/RescueGuideListPage.jsx";
 import RescueGuideDetailPage from "./pages/RescueGuideDetailPage.jsx";
@@ -18,24 +16,13 @@ import RescueResourceDetailPage from "./pages/RescueResourceDetailPage.jsx";
 import RescueClueSubmitPage from "./pages/RescueClueSubmitPage.jsx";
 import MyRescueCluesPage from "./pages/MyRescueCluesPage.jsx";
 import MyRescueClueDetailPage from "./pages/MyRescueClueDetailPage.jsx";
-import AdminRescueGuideListPage from "./pages/AdminRescueGuideListPage.jsx";
-import AdminRescueGuideEditPage from "./pages/AdminRescueGuideEditPage.jsx";
-import AdminRescueResourceListPage from "./pages/AdminRescueResourceListPage.jsx";
-import AdminRescueResourceEditPage from "./pages/AdminRescueResourceEditPage.jsx";
-import AdminRescueClueListPage from "./pages/AdminRescueClueListPage.jsx";
-import AdminRescueClueDetailPage from "./pages/AdminRescueClueDetailPage.jsx";
 import ComplaintSubmitPage from "./pages/ComplaintSubmitPage.jsx";
 import MyComplaintTicketsPage from "./pages/MyComplaintTicketsPage.jsx";
 import MyComplaintTicketDetailPage from "./pages/MyComplaintTicketDetailPage.jsx";
-import AdminOpsDashboardPage from "./pages/AdminOpsDashboardPage.jsx";
-import AdminComplaintTicketListPage from "./pages/AdminComplaintTicketListPage.jsx";
-import AdminComplaintTicketDetailPage from "./pages/AdminComplaintTicketDetailPage.jsx";
-import AdminBlacklistPage from "./pages/AdminBlacklistPage.jsx";
-import AdminCityFeaturePage from "./pages/AdminCityFeaturePage.jsx";
-import AdminAuditLogSearchPage from "./pages/AdminAuditLogSearchPage.jsx";
 import MobileLoginPage from "./pages/MobileLoginPage.jsx";
 import CommunityPage from "./pages/CommunityPage.jsx";
 import MyCenterPage from "./pages/MyCenterPage.jsx";
+import AdminEntryPage from "./pages/AdminEntryPage.jsx";
 
 function App() {
   return (
@@ -86,30 +73,14 @@ function App() {
           <Route path="/me/support/complaints" element={<MyComplaintTicketsPage />} />
           <Route path="/me/support/complaints/:ticketId" element={<MyComplaintTicketDetailPage />} />
 
-          <Route path="/admin/adoptions/posts" element={<AdminAdoptionPostReviewListPage />} />
-          <Route
-            path="/admin/adoptions/posts/:postId"
-            element={<AdminAdoptionPostReviewDetailPage />}
-          />
-          <Route path="/admin/rescue/guides" element={<AdminRescueGuideListPage />} />
-          <Route path="/admin/rescue/guides/:guideId" element={<AdminRescueGuideEditPage />} />
-          <Route path="/admin/rescue/resources" element={<AdminRescueResourceListPage />} />
-          <Route path="/admin/rescue/resources/:resourceId" element={<AdminRescueResourceEditPage />} />
-          <Route path="/admin/rescue/clues" element={<AdminRescueClueListPage />} />
-          <Route path="/admin/rescue/clues/:clueId" element={<AdminRescueClueDetailPage />} />
-          <Route path="/admin/ops/dashboard" element={<AdminOpsDashboardPage />} />
-          <Route path="/admin/ops/complaints" element={<AdminComplaintTicketListPage />} />
-          <Route path="/admin/ops/complaints/:ticketId" element={<AdminComplaintTicketDetailPage />} />
-          <Route path="/admin/ops/risk/blacklists" element={<AdminBlacklistPage />} />
-          <Route path="/admin/ops/city-features" element={<AdminCityFeaturePage />} />
-          <Route path="/admin/ops/audit-logs" element={<AdminAuditLogSearchPage />} />
+          <Route path="/admin/*" element={<AdminEntryPage />} />
 
           <Route path="/services" element={<Navigate to="/rescue" replace />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
       <footer className="site-footer container">
-        <p>PetLove Web MVP • 温暖治愈 + 专业可信</p>
+        <p>PetLove • 温暖治愈 + 专业可信</p>
       </footer>
     </div>
   );

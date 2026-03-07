@@ -37,10 +37,10 @@ function MyCenterPage() {
       <section className="card page-form-card fade-up" style={{ "--delay": "120ms" }}>
         <div className="action-row">
           <Link className="secondary-btn" to="/me/support/complaints">
-            我的投诉工单
+            我的反馈记录
           </Link>
           <Link className="secondary-btn" to="/support/complaints/new">
-            提交投诉工单
+            提交问题反馈
           </Link>
           <Link className="secondary-btn" to="/auth/mobile-login">
             短信登录

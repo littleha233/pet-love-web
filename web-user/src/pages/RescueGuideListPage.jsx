@@ -2,22 +2,36 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import Pagination from "../components/Pagination.jsx";
 import { listRescueGuides } from "../api/rescueApi";
-import { formatDateTime } from "../utils/format";
+import { formatDateTime, formatRescueGuideScenario } from "../utils/format";
 
 const PAGE_SIZE = 10;
+const CITY_OPTIONS = [
+  { code: "", name: "全部城市" },
+  { code: "310100", name: "上海" },
+  { code: "330100", name: "杭州" },
+  { code: "320100", name: "南京" },
+  { code: "440300", name: "深圳" }
+];
+const CITY_MAP = CITY_OPTIONS.reduce((acc, item) => {
+  if (item.code) {
+    acc[item.code] = item.name;
+  }
+  return acc;
+}, {});
 
 function RescueGuideListPage() {
   const [searchParams] = useSearchParams();
   const initialScenarioCode = useMemo(() => searchParams.get("scenarioCode") || "", [searchParams]);
+  const initialCityCode = useMemo(() => searchParams.get("cityCode") || "", [searchParams]);
 
   const [draft, setDraft] = useState({
     scenarioCode: initialScenarioCode,
-    cityCode: "",
+    cityCode: initialCityCode,
     keyword: ""
   });
   const [filters, setFilters] = useState({
     scenarioCode: initialScenarioCode,
-    cityCode: "",
+    cityCode: initialCityCode,
     keyword: ""
   });
   const [page, setPage] = useState(1);
@@ -90,8 +104,14 @@ function RescueGuideListPage() {
             <option value="ABANDONED_PUPPIES">幼犬救助</option>
             <option value="EMERGENCY_TRANSPORT">紧急转运</option>
           </select>
-          <input name="cityCode" value={draft.cityCode} onChange={onChange} placeholder="城市编码（可选）" />
-          <input name="keyword" value={draft.keyword} onChange={onChange} placeholder="关键词（标题/摘要/正文）" />
+          <select name="cityCode" value={draft.cityCode} onChange={onChange}>
+            {CITY_OPTIONS.map((city) => (
+              <option key={city.code || "all"} value={city.code}>
+                {city.name}
+              </option>
+            ))}
+          </select>
+          <input name="keyword" value={draft.keyword} onChange={onChange} placeholder="关键词（标题/摘要/内容）" />
           <button className="primary-btn" type="submit">
             查询
           </button>
@@ -109,11 +129,10 @@ function RescueGuideListPage() {
           {result.items.map((item) => (
             <article key={item.guideId} className="list-card">
               <div className="list-card-main">
-                <h3>
-                  #{item.guideId} {item.title}
-                </h3>
+                <h3>{item.title}</h3>
                 <p className="helper-text">
-                  场景：{item.scenarioCode || "-"} · 城市：{item.cityCode || "全国通用"}
+                  场景：{formatRescueGuideScenario(item.scenarioCode)} · 城市：
+                  {item.cityName || CITY_MAP[item.cityCode] || "全国通用"}
                 </p>
                 <p>{item.summary || "暂无摘要"}</p>
                 <div className="tag-row">

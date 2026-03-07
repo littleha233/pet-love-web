@@ -46,8 +46,8 @@ function AdoptionModulePage() {
       <section>
         <SectionHeader
           eyebrow="流程分区"
-          title="入口收口到模块内部"
-          description="首页不再堆叠动作，领养相关流程统一在本模块内完成。"
+          title="领养流程集中管理"
+          description="从浏览到申请、再到沟通与跟进，核心动作都在本模块内完成。"
         />
         <div className="module-entry-grid">
           <ModuleEntryCard

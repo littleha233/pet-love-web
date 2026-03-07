@@ -16,8 +16,7 @@ function NavBar() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const userToken = window.localStorage.getItem("petlove_user_access_token");
-  const adminToken = window.localStorage.getItem("petlove_admin_access_token");
-  const hasLoginState = Boolean(userToken || adminToken);
+  const hasLoginState = Boolean(userToken);
 
   useEffect(() => {
     function onPointerDown(event) {
@@ -66,28 +65,6 @@ function NavBar() {
     };
   }, [menuOpen]);
 
-  function setupToken() {
-    const tokenType = window.prompt("设置 token 类型（user/admin）", "user");
-    if (!tokenType) {
-      return;
-    }
-    const normalized = tokenType.trim().toLowerCase();
-    if (normalized !== "user" && normalized !== "admin") {
-      window.alert("仅支持 user 或 admin");
-      return;
-    }
-    const token = window.prompt(`请输入 ${normalized} access token`, "");
-    if (!token) {
-      return;
-    }
-    const key =
-      normalized === "admin"
-        ? "petlove_admin_access_token"
-        : "petlove_user_access_token";
-    window.localStorage.setItem(key, token.trim());
-    window.alert(`${normalized} token 已保存到 localStorage`);
-  }
-
   return (
     <header className="site-header">
       <div className="container nav-wrap">
@@ -131,18 +108,6 @@ function NavBar() {
               <Link className="user-menu-item" to="/me" onClick={() => setMenuOpen(false)}>
                 我的中心
               </Link>
-              {import.meta.env.DEV ? (
-                <button
-                  className="user-menu-item user-menu-action"
-                  type="button"
-                  onClick={() => {
-                    setMenuOpen(false);
-                    setupToken();
-                  }}
-                >
-                  开发设置 / Token
-                </button>
-              ) : null}
             </div>
           ) : null}
         </div>
