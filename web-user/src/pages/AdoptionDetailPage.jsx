@@ -14,6 +14,7 @@ import {
   formatPublicText,
   formatReason
 } from "../utils/format";
+import { resolveMediaUrl } from "../utils/media";
 
 const EMPTY_FORM = {
   message: "",
@@ -114,7 +115,11 @@ function AdoptionDetailPage() {
           <div className="detail-image-grid">
             {media.length > 0 ? (
               media.map((item) => (
-                <img key={`${item.fileId}-${item.sortOrder}`} src={item.url} alt="宠物照片" />
+                <img
+                  key={`${item.fileId}-${item.sortOrder}`}
+                  src={resolveMediaUrl(item.url)}
+                  alt="宠物照片"
+                />
               ))
             ) : (
               <div className="image-placeholder">暂无图片</div>

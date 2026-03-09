@@ -1,16 +1,18 @@
 import { Link } from "react-router-dom";
 import PostStatusTag from "./PostStatusTag";
 import { formatDateTime, formatNumber, formatPetType, formatPublicText } from "../utils/format";
+import { resolveMediaUrl } from "../utils/media";
 
 function AdoptionPostCard({ post }) {
   const title = formatPublicText(post.title);
   const petName = formatPublicText(post.petName);
+  const coverImageUrl = resolveMediaUrl(post.coverImageUrl);
 
   return (
     <article className="adoption-post-card card">
       <Link to={`/adoption/${post.postId}`} className="adoption-post-cover">
-        {post.coverImageUrl ? (
-          <img src={post.coverImageUrl} alt={title || "送养帖子封面"} />
+        {coverImageUrl ? (
+          <img src={coverImageUrl} alt={title || "送养帖子封面"} />
         ) : (
           <div className="image-placeholder">暂无图片</div>
         )}
