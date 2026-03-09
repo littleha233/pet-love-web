@@ -885,8 +885,9 @@ a {
 
 .upload-preview-item img {
   width: 100%;
-  height: 120px;
-  object-fit: cover;
+  height: 220px;
+  object-fit: contain;
+  background: #fff;
   border-radius: 8px;
 }
 
