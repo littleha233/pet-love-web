@@ -7,7 +7,7 @@ function MyCenterPage() {
       <section className="card page-banner fade-up">
         <p className="eyebrow">我的</p>
         <h1>个人中心</h1>
-        <p>按业务线查看我的数据，当前聚焦领养与救助两条主流程。</p>
+        <p>查看领养、救助与反馈记录。</p>
       </section>
 
       <section className="module-entry-grid">
@@ -41,9 +41,6 @@ function MyCenterPage() {
           </Link>
           <Link className="secondary-btn" to="/support/complaints/new">
             提交问题反馈
-          </Link>
-          <Link className="secondary-btn" to="/auth/mobile-login">
-            短信登录
           </Link>
         </div>
       </section>

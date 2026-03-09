@@ -21,17 +21,17 @@ const rescueFlowSteps = [
 const supportPreviewItems = [
   {
     title: "问题反馈入口",
-    subtitle: "针对领养与救助相关问题提交反馈并跟踪处理。",
+    subtitle: "提交问题并跟踪进展。",
     to: "/support/complaints/new"
   },
   {
     title: "我的反馈记录",
-    subtitle: "查看回复、补充证据、确认处理结果。",
+    subtitle: "查看回复与处理结果。",
     to: "/me/support/complaints"
   },
   {
     title: "我的救助线索",
-    subtitle: "查看线索状态、推荐资源与处理备注。",
+    subtitle: "查看线索状态与推荐资源。",
     to: "/me/rescue/clues"
   }
 ];
@@ -41,7 +41,7 @@ function HomePage() {
     <div className="page-stack">
       <Hero
         title="聚焦领养与救助，让每次行动都有结果"
-        subtitle="平台当前阶段集中做两件事：帮助宠物找到新家，以及在突发场景下提供可执行的救助闭环。"
+        subtitle="两条主线：帮宠物找到新家，和提供可执行的救助支持。"
         imageUrl="https://images.pexels.com/photos/4587994/pexels-photo-4587994.jpeg?auto=compress&cs=tinysrgb&w=1200"
         imageAlt="主人与宠物互动"
         primaryText="进入领养"
@@ -55,13 +55,13 @@ function HomePage() {
         <SectionHeader
           eyebrow="业务分发"
           title="先选业务线，再进入对应流程"
-          description="首页只做分发与信任背书，流程动作统一收口到领养与救助模块。"
+          description="首页只做入口分发。"
         />
         <div className="module-entry-grid">
           <ModuleEntryCard
             eyebrow="领养中心"
             title="查看可领养，或发布送养"
-            description="面向领养人与送养人，统一管理申请、发布和跟进。"
+            description="统一管理申请与送养。"
             links={[
               { label: "查看可领养", to: "/adoption/list" },
               { label: "发布送养", to: "/adoption/post/new" },
@@ -73,7 +73,7 @@ function HomePage() {
           <ModuleEntryCard
             eyebrow="救助中心"
             title="先看指引，再找资源，必要时提线索"
-            description="从现场处置到后续跟进，页面链路完整可追踪。"
+            description="从处置到跟进一条线完成。"
             links={[
               { label: "查看救助指引", to: "/rescue/guides" },
               { label: "查看救助资源", to: "/rescue/resources" },
@@ -90,7 +90,7 @@ function HomePage() {
         <SectionHeader
           eyebrow="流程说明"
           title="两条流程各自清晰"
-          description="遇到实际场景时先按流程走，减少临场决策成本。"
+          description="按流程走，操作更稳。"
         />
         <div className="flow-explain-grid">
           <article className="card flow-explain-card fade-up">
@@ -116,24 +116,24 @@ function HomePage() {
         <SectionHeader
           eyebrow="内容预览"
           title="首页只预览，不在首页完成流程"
-          description="点击后进入对应模块继续操作。"
+          description="点击后进入对应模块。"
         />
         <div className="feature-preview-grid">
           <FeaturePreviewList
             title="最新领养信息"
-            description="优先展示近期更新且信息完整的内容。"
+            description="近期更新优先展示。"
             items={adoptionPreviewItems}
             action={{ label: "查看全部领养信息", to: "/adoption/list" }}
           />
           <FeaturePreviewList
             title="救助快捷入口"
-            description="按场景进入对应指引，降低误操作风险。"
+            description="按场景快速进入。"
             items={rescueQuickLinks}
             action={{ label: "进入救助模块", to: "/rescue" }}
           />
           <FeaturePreviewList
             title="保障与反馈"
-            description="问题可追踪、证据可补充、进展可查看。"
+            description="问题可追踪。"
             items={supportPreviewItems}
             action={{ label: "提交问题反馈", to: "/support/complaints/new" }}
           />
@@ -144,7 +144,7 @@ function HomePage() {
         <div className="trust-footer-header">
           <p className="eyebrow">平台保障</p>
           <h3>温暖治愈，也要专业可信</h3>
-          <p>领养审核、线索处理与问题反馈都应有明确闭环。</p>
+          <p>每个问题都有处理闭环。</p>
         </div>
         <div className="trust-badge-row">
           {homepageTrustBadges.map((item) => (

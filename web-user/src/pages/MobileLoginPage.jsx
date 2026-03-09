@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { mobileCodeLogin, sendMobileSmsCode } from "../api/authApi";
 
 const USER_ACCESS_TOKEN_KEY = "petlove_user_access_token";
@@ -75,8 +75,10 @@ function drawCaptcha(canvas, captchaCode) {
 
 function MobileLoginPage() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const deviceId = useMemo(() => resolveDeviceId(), []);
   const captchaCanvasRef = useRef(null);
+  const isRegisterView = searchParams.get("intent") === "register";
 
   const [mobile, setMobile] = useState("");
   const [code, setCode] = useState("");
@@ -181,9 +183,9 @@ function MobileLoginPage() {
     <div className="page-stack auth-login-page">
       <section className="auth-login-shell fade-up">
         <aside className="card auth-login-intro">
-          <p className="eyebrow">账号登录</p>
-          <h1>短信验证码登录 / 自动注册</h1>
-          <p>输入中国大陆手机号，验证码通过后自动登录。若账号不存在会自动创建。</p>
+          <p className="eyebrow">{isRegisterView ? "账号注册" : "账号登录"}</p>
+          <h1>{isRegisterView ? "手机号快速注册" : "手机号快捷登录"}</h1>
+          <p>输入手机号并完成验证码校验即可使用。</p>
           <ul className="auth-login-tags">
             <li>短信登录</li>
             <li>自动注册</li>
@@ -255,7 +257,7 @@ function MobileLoginPage() {
             </div>
 
             <button className="primary-btn auth-submit-btn" type="submit" disabled={loggingIn || sending}>
-              {loggingIn ? "登录中..." : "验证码登录"}
+              {loggingIn ? "处理中..." : isRegisterView ? "注册并登录" : "登录"}
             </button>
 
             <p className="helper-text auth-security-tip">发送验证码前需通过图形校验，可降低脚本滥发风险。</p>
