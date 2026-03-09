@@ -79,6 +79,8 @@ function MobileLoginPage() {
   const deviceId = useMemo(() => resolveDeviceId(), []);
   const captchaCanvasRef = useRef(null);
   const isRegisterView = searchParams.get("intent") === "register";
+  const rawRedirect = searchParams.get("redirect");
+  const redirectPath = rawRedirect && rawRedirect.startsWith("/") ? rawRedirect : "/";
 
   const [mobile, setMobile] = useState("");
   const [code, setCode] = useState("");
@@ -171,7 +173,7 @@ function MobileLoginPage() {
         : "登录成功";
       setNotice(welcomeText);
 
-      navigate("/", { replace: true, state: { notice: welcomeText } });
+      navigate(redirectPath, { replace: true, state: { notice: welcomeText } });
     } catch (err) {
       setNotice(err.message || "登录失败");
     } finally {

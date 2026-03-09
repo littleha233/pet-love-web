@@ -809,6 +809,17 @@ a {
   margin: 2px 0;
 }
 
+.auth-gate-row {
+  margin-top: 10px;
+}
+
+.auth-gate-actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
 .notice-text,
 .error-text {
   margin: 8px 0 2px;
