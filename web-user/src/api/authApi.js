@@ -13,3 +13,10 @@ export function mobileCodeLogin(payload) {
     body: payload
   });
 }
+
+export function adminPasswordLogin(payload) {
+  return request("/api/admin/v1/auth/login", {
+    method: "POST",
+    body: payload
+  });
+}

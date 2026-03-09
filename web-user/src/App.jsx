@@ -1,5 +1,6 @@
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import NavBar from "./components/NavBar.jsx";
+import AdminLayout from "./components/AdminLayout.jsx";
 import HomePage from "./pages/HomePage.jsx";
 import AdoptionModulePage from "./pages/AdoptionModulePage.jsx";
 import AdoptionPage from "./pages/AdoptionPage.jsx";
@@ -22,16 +23,21 @@ import MyComplaintTicketDetailPage from "./pages/MyComplaintTicketDetailPage.jsx
 import MobileLoginPage from "./pages/MobileLoginPage.jsx";
 import CommunityPage from "./pages/CommunityPage.jsx";
 import MyCenterPage from "./pages/MyCenterPage.jsx";
-import AdminEntryPage from "./pages/AdminEntryPage.jsx";
+import AdminLoginPage from "./pages/AdminLoginPage.jsx";
+import AdminAdoptionPostReviewListPage from "./pages/AdminAdoptionPostReviewListPage.jsx";
+import AdminAdoptionPostReviewDetailPage from "./pages/AdminAdoptionPostReviewDetailPage.jsx";
 
 function App() {
+  const location = useLocation();
+  const isAdminPath = location.pathname.startsWith("/admin");
+
   return (
     <div className="app-shell">
       <div className="bg-orb bg-orb-left" />
       <div className="bg-orb bg-orb-right" />
       <div className="bg-orb bg-orb-center" />
-      <NavBar />
-      <main className="page-main container">
+      {!isAdminPath ? <NavBar /> : null}
+      <main className={isAdminPath ? "admin-route-host" : "page-main container"}>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/community" element={<CommunityPage />} />
@@ -73,15 +79,23 @@ function App() {
           <Route path="/me/support/complaints" element={<MyComplaintTicketsPage />} />
           <Route path="/me/support/complaints/:ticketId" element={<MyComplaintTicketDetailPage />} />
 
-          <Route path="/admin/*" element={<AdminEntryPage />} />
+          <Route path="/admin/login" element={<AdminLoginPage />} />
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<Navigate to="/admin/adoptions/posts" replace />} />
+            <Route path="adoptions/posts" element={<AdminAdoptionPostReviewListPage />} />
+            <Route path="adoptions/posts/:postId" element={<AdminAdoptionPostReviewDetailPage />} />
+            <Route path="*" element={<Navigate to="/admin/adoptions/posts" replace />} />
+          </Route>
 
           <Route path="/services" element={<Navigate to="/rescue" replace />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
-      <footer className="site-footer container">
-        <p>PetLove • 温暖治愈 + 专业可信</p>
-      </footer>
+      {!isAdminPath ? (
+        <footer className="site-footer container">
+          <p>PetLove • 温暖治愈 + 专业可信</p>
+        </footer>
+      ) : null}
     </div>
   );
 }

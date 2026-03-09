@@ -68,9 +68,9 @@ function AdminAdoptionPostReviewListPage() {
   return (
     <div className="page-stack">
       <section className="card page-banner">
-        <p className="eyebrow">Admin 审核列表</p>
+        <p className="eyebrow">审核列表</p>
         <h1>送养帖审核管理</h1>
-        <p>使用管理员 token 访问 /api/admin/v1/adoptions/posts。</p>
+        <p>在这里处理待审核的送养帖子。</p>
       </section>
 
       <section className="card page-form-card">

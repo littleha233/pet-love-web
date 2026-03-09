@@ -60,6 +60,10 @@ a {
   isolation: isolate;
 }
 
+.admin-route-host {
+  min-height: calc(100vh - 70px);
+}
+
 .app-shell::before,
 .app-shell::after {
   content: "";
@@ -135,6 +139,72 @@ a {
   border-bottom: 1px solid rgba(230, 216, 196, 0.86);
   backdrop-filter: blur(9px);
   background: rgba(255, 249, 239, 0.82);
+}
+
+.admin-shell {
+  min-height: 100vh;
+}
+
+.admin-header {
+  position: sticky;
+  top: 0;
+  z-index: 11;
+  border-bottom: 1px solid #d9d2c4;
+  backdrop-filter: blur(9px);
+  background: rgba(248, 245, 239, 0.92);
+}
+
+.admin-header-wrap {
+  min-height: 74px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.admin-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 800;
+}
+
+.admin-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 26px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: #2f3e56;
+  color: #fff;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+}
+
+.admin-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.admin-nav-link {
+  padding: 7px 12px;
+  border-radius: 10px;
+  border: 1px solid #d9d1c2;
+  color: var(--text-main);
+  font-weight: 700;
+}
+
+.admin-nav-link-active {
+  background: #e9f0fb;
+  border-color: #bed0ed;
+  color: #1f4b8e;
+}
+
+.admin-main {
+  padding-top: 22px;
 }
 
 .nav-wrap {
@@ -224,6 +294,11 @@ a {
   background: #faefe2;
   border-color: #e9d4bb;
   color: var(--text-main);
+}
+
+.admin-login-page {
+  max-width: 620px;
+  margin: 0 auto;
 }
 
 .ghost-btn,
