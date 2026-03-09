@@ -204,7 +204,6 @@ public class AdoptionPostService {
     @Transactional
     public RehomePostDetailDTO create(CreateRehomePostRequest request) {
         long userId = SecurityUtils.currentUserId();
-        ensureRealNameVerified(userId);
         validateCity(request.getCityCode());
         riskGuard.ensureUserActionAllowed(
             userId,
@@ -311,7 +310,6 @@ public class AdoptionPostService {
             .orElseThrow(() -> new BizException(ErrorCode.ADOPTION_POST_NOT_FOUND, "Adoption post not found"));
 
         ensurePostOwner(post, userId);
-        ensureRealNameVerified(userId);
 
         if (post.getStatus() != AdoptionPostStatus.REJECTED) {
             throw new BizException(ErrorCode.ADOPTION_POST_STATUS_INVALID, "Only rejected post can be resubmitted");
@@ -500,13 +498,6 @@ public class AdoptionPostService {
             if (fileObject.getBizType() != FileBizType.PET_MEDIA && fileObject.getBizType() != FileBizType.OTHER) {
                 throw new BizException(ErrorCode.ADOPTION_POST_FILE_INVALID, "Pet image file bizType is invalid");
             }
-        }
-    }
-
-    private void ensureRealNameVerified(long userId) {
-        UserProfile profile = userProfileRepository.findByUserId(userId).orElse(null);
-        if (profile == null || !profile.isRealNameVerified()) {
-            throw new BizException(ErrorCode.ADOPTION_REAL_NAME_REQUIRED, "Real-name verification is required");
         }
     }
 

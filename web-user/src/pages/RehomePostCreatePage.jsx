@@ -150,11 +150,7 @@ function RehomePostCreatePage() {
         state: { notice: "发布成功，平台会尽快完成审核并展示。" }
       });
     } catch (err) {
-      if (err?.code === "ADOPTION_REAL_NAME_REQUIRED" || err?.code === "VERIFICATION_REAL_NAME_REQUIRED") {
-        setMessage("当前账号尚未开通领养发布权限（后端限制），请联系管理员处理。");
-      } else {
-        setMessage(err.message || "发布失败");
-      }
+      setMessage(err.message || "发布失败");
     } finally {
       setSubmitting(false);
     }
