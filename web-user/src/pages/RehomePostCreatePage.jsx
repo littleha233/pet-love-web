@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import PetInfoForm from "../components/PetInfoForm.jsx";
 import { createRehomePost, uploadPetImage } from "../api/adoptionApi";
 
+const USER_ACCESS_TOKEN_KEY = "petlove_user_access_token";
 const EMPTY_FORM = {
   title: "",
   content: "",
@@ -37,6 +38,7 @@ function RehomePostCreatePage() {
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState("");
   const previewUrlsRef = useRef(new Set());
+  const hasLoginState = Boolean(window.localStorage.getItem(USER_ACCESS_TOKEN_KEY));
 
   useEffect(() => {
     return () => {
@@ -61,6 +63,12 @@ function RehomePostCreatePage() {
   }
 
   async function onUpload(event) {
+    if (!hasLoginState) {
+      setMessage("请先登录后再上传图片");
+      event.target.value = "";
+      return;
+    }
+
     const files = Array.from(event.target.files || []);
     event.target.value = "";
 
@@ -110,6 +118,11 @@ function RehomePostCreatePage() {
   async function onSubmit(event) {
     event.preventDefault();
 
+    if (!hasLoginState) {
+      setMessage("你当前未登录，请先登录后再发布送养信息。");
+      return;
+    }
+
     if (uploads.length < 1) {
       setMessage("请至少上传 1 张宠物图片");
       return;
@@ -150,7 +163,17 @@ function RehomePostCreatePage() {
         state: { notice: "发布成功，平台会尽快完成审核并展示。" }
       });
     } catch (err) {
-      setMessage(err.message || "发布失败");
+      if (
+        err?.code === "UNAUTHORIZED" ||
+        err?.code === "AUTH_TOKEN_INVALID" ||
+        err?.code === "AUTH_REFRESH_TOKEN_INVALID"
+      ) {
+        setMessage("登录状态已失效，请重新登录后再发布。");
+      } else if (err?.code === "ADOPTION_REAL_NAME_REQUIRED") {
+        setMessage("后端仍启用旧的发布限制，请重启后端到最新版本后重试。");
+      } else {
+        setMessage(err.message || "发布失败");
+      }
     } finally {
       setSubmitting(false);
     }
@@ -161,6 +184,7 @@ function RehomePostCreatePage() {
       <section className="card page-banner">
         <p className="eyebrow">发布送养帖</p>
         <h1>填写完整信息，提升匹配效率</h1>
+        {!hasLoginState ? <p className="helper-text notice-text">你当前未登录，发布前请先登录。</p> : null}
       </section>
 
       <section className="card page-form-card">
