@@ -1635,6 +1635,25 @@ a {
   align-content: start;
 }
 
+.profile-info-form h3 {
+  margin: 0;
+}
+
+.profile-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.profile-meta-grid p {
+  margin: 0;
+  border: 1px solid var(--line);
+  background: #fff;
+  border-radius: 10px;
+  padding: 10px 12px;
+  color: var(--text-soft);
+}
+
 .module-entry-card h3,
 .role-entry-card h3 {
   margin: 0;
@@ -1859,7 +1878,8 @@ a {
 
   .module-entry-grid,
   .role-entry-grid,
-  .flow-explain-grid {
+  .flow-explain-grid,
+  .profile-meta-grid {
     grid-template-columns: 1fr;
   }
 
