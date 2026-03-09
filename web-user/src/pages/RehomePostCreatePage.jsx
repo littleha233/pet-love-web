@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PetInfoForm from "../components/PetInfoForm.jsx";
 import { createRehomePost, uploadPetImage } from "../api/adoptionApi";
@@ -36,6 +36,14 @@ function RehomePostCreatePage() {
   const [uploading, setUploading] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [message, setMessage] = useState("");
+  const previewUrlsRef = useRef(new Set());
+
+  useEffect(() => {
+    return () => {
+      previewUrlsRef.current.forEach((url) => URL.revokeObjectURL(url));
+      previewUrlsRef.current.clear();
+    };
+  }, []);
 
   function onChange(event) {
     const { name, value } = event.target;
@@ -71,7 +79,14 @@ function RehomePostCreatePage() {
     try {
       for (const file of files) {
         const uploaded = await uploadPetImage(file);
-        incoming.push({ fileId: uploaded.fileId, url: uploaded.url, fileName: uploaded.fileName });
+        const previewUrl = URL.createObjectURL(file);
+        previewUrlsRef.current.add(previewUrl);
+        incoming.push({
+          fileId: uploaded.fileId,
+          url: uploaded.url || uploaded.fileUrl || "",
+          previewUrl,
+          fileName: uploaded.fileName || file.name
+        });
       }
       setUploads((prev) => [...prev, ...incoming]);
     } catch (err) {
@@ -82,7 +97,14 @@ function RehomePostCreatePage() {
   }
 
   function removeUpload(fileId) {
-    setUploads((prev) => prev.filter((item) => item.fileId !== fileId));
+    setUploads((prev) => {
+      const target = prev.find((item) => item.fileId === fileId);
+      if (target?.previewUrl?.startsWith("blob:")) {
+        URL.revokeObjectURL(target.previewUrl);
+        previewUrlsRef.current.delete(target.previewUrl);
+      }
+      return prev.filter((item) => item.fileId !== fileId);
+    });
   }
 
   async function onSubmit(event) {
@@ -145,11 +167,29 @@ function RehomePostCreatePage() {
         <form className="stack-form" onSubmit={onSubmit}>
           <label>
             标题*
-            <input name="title" value={form.title} onChange={onChange} maxLength={200} required />
+            <input
+              name="title"
+              value={form.title}
+              onChange={onChange}
+              maxLength={200}
+              placeholder="例如：奶牛猫 1 岁，找稳定家庭（杭州）"
+              required
+            />
           </label>
           <label>
             正文*
-            <textarea name="content" value={form.content} onChange={onChange} maxLength={5000} rows={6} required />
+            <textarea
+              name="content"
+              value={form.content}
+              onChange={onChange}
+              maxLength={5000}
+              rows={8}
+              placeholder={
+                "可参考：\n1. 宠物性格与生活习惯\n2. 健康与疫苗情况\n3. 送养原因\n4. 希望领养人具备的条件"
+              }
+              required
+            />
+            <p className="helper-text">建议写清性格、健康、送养原因和期望条件。</p>
           </label>
 
           <div className="form-grid-two">
@@ -165,8 +205,13 @@ function RehomePostCreatePage() {
               </select>
             </label>
             <label className="full-row">
-              区县
-              <input name="districtName" value={form.districtName} onChange={onChange} />
+              区县 / 街道 / 小区（选填）
+              <input
+                name="districtName"
+                value={form.districtName}
+                onChange={onChange}
+                placeholder="例如：余杭区良渚街道某某小区"
+              />
             </label>
           </div>
 
@@ -182,7 +227,7 @@ function RehomePostCreatePage() {
             <div className="upload-preview-grid">
               {uploads.map((item) => (
                 <div key={item.fileId} className="upload-preview-item">
-                  <img src={item.url} alt={item.fileName || "上传图片"} />
+                  <img src={item.previewUrl || item.url} alt={item.fileName || "上传图片"} />
                   <button type="button" className="ghost-btn" onClick={() => removeUpload(item.fileId)}>
                     删除
                   </button>
