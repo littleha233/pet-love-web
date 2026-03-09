@@ -134,8 +134,7 @@ function RescueClueSubmitPage() {
     <div className="page-stack">
       <section className="card page-banner">
         <p className="eyebrow">提交救助线索</p>
-        <h1>记录位置与情况，便于后续分流跟进</h1>
-        <p>建议上传 1-9 张现场图片。提交后可在“我的线索”查看进展。</p>
+        <h1>提交救助线索</h1>
       </section>
 
       <section className="card page-form-card">

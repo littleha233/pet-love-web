@@ -57,7 +57,6 @@ function MyAdoptionApplicationsPage() {
       <section className="card page-banner">
         <p className="eyebrow">我的领养申请</p>
         <h1>查看申请进度</h1>
-        <p>可按状态过滤，待处理中的申请支持撤回。</p>
       </section>
 
       <section className="card page-form-card">

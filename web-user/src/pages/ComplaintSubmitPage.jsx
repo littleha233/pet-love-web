@@ -90,7 +90,6 @@ function ComplaintSubmitPage() {
       <section className="card page-banner">
         <p className="eyebrow">帮助与投诉</p>
         <h1>提交问题反馈</h1>
-        <p>请尽量描述清楚发生的问题并上传证据图片，平台会尽快处理并回复进展。</p>
       </section>
 
       <section className="card page-form-card">

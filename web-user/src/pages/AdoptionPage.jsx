@@ -72,7 +72,6 @@ function AdoptionPage() {
       <section className="card page-banner fade-up">
         <p className="eyebrow">领养列表</p>
         <h1>寻找适合的领养信息</h1>
-        <p>支持按城市、宠物类型和关键词筛选，点击卡片即可查看详情并提交申请。</p>
       </section>
 
       <section className="card page-form-card fade-up" style={{ "--delay": "70ms" }}>
@@ -112,7 +111,6 @@ function AdoptionPage() {
         <SectionHeader
           eyebrow="帖子"
           title="在寻找家的孩子"
-          description="以下为当前可申请的送养信息。"
         />
         {loading ? <p className="helper-text">加载中...</p> : null}
         {error ? <p className="error-text">{error}</p> : null}

@@ -89,7 +89,6 @@ function RescueGuideListPage() {
       <section className="card page-banner">
         <p className="eyebrow">救助指引</p>
         <h1>按场景快速找到处理步骤</h1>
-        <p>仅展示已发布的指引内容，支持场景、城市和关键词筛选。</p>
       </section>
 
       <section className="card page-form-card">

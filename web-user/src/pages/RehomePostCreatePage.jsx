@@ -139,7 +139,6 @@ function RehomePostCreatePage() {
       <section className="card page-banner">
         <p className="eyebrow">发布送养帖</p>
         <h1>填写完整信息，提升匹配效率</h1>
-        <p>请尽量补充宠物情况和生活习惯，便于潜在领养人快速判断是否合适。</p>
       </section>
 
       <section className="card page-form-card">

@@ -2,7 +2,6 @@ import { Link } from "react-router-dom";
 
 function Hero({
   title,
-  subtitle,
   imageUrl,
   imageAlt,
   primaryText,
@@ -16,7 +15,6 @@ function Hero({
       <div className="hero-content">
         <p className="eyebrow">PetLove Web</p>
         <h1>{title}</h1>
-        <p className="hero-subtitle">{subtitle}</p>
         <div className="hero-actions">
           <Link to={primaryTo} className="primary-btn">
             {primaryText}

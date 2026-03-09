@@ -39,7 +39,6 @@ function CommunityPage() {
       <section className="card page-banner fade-up">
         <p className="eyebrow">社区</p>
         <h1>宠物故事与经验分享</h1>
-        <p>看看大家的真实案例，少走弯路。</p>
       </section>
 
       <section className="card page-form-card fade-up" style={{ "--delay": "60ms" }}>

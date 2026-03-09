@@ -85,7 +85,6 @@ function RescueResourceListPage() {
       <section className="card page-banner">
         <p className="eyebrow">救助资源目录</p>
         <h1>同城医院、救助站、志愿者与官方渠道</h1>
-        <p>仅展示启用中的资源，建议优先选择最近核验时间较新的联系方式。</p>
       </section>
 
       <section className="card page-form-card">

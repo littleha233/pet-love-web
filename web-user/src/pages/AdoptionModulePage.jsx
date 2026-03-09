@@ -15,7 +15,6 @@ function AdoptionModulePage() {
       <section className="card module-hero fade-up">
         <p className="eyebrow">领养模块</p>
         <h1>领养与送养</h1>
-        <p>帮助宠物找到新家，流程聚焦「浏览、申请、沟通、回访」四个关键阶段。</p>
         <div className="hero-actions">
           <Link className="primary-btn" to="/adoption/list">
             查看可领养
@@ -47,13 +46,11 @@ function AdoptionModulePage() {
         <SectionHeader
           eyebrow="流程分区"
           title="领养流程集中管理"
-          description="从浏览到申请、再到沟通与跟进，核心动作都在本模块内完成。"
         />
         <div className="module-entry-grid">
           <ModuleEntryCard
             eyebrow="我要领养"
             title="先看公开信息，再发起申请"
-            description="通过城市、宠物类型筛选，找到符合家庭条件的宠物。"
             links={[
               { label: "浏览可领养列表", to: "/adoption/list" },
               { label: "查看我的申请", to: "/adoption/applications" }
@@ -63,7 +60,6 @@ function AdoptionModulePage() {
           <ModuleEntryCard
             eyebrow="我要送养"
             title="发布信息并管理申请"
-            description="送养信息和申请处理放在同一模块，沟通链路更集中。"
             links={[
               { label: "发布送养信息", to: "/adoption/post/new" },
               { label: "查看我的送养", to: "/adoption/my-posts" }

@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 function ModuleEntryCard({
   eyebrow,
   title,
-  description,
   links,
   primaryAction,
   delay = "0ms"
@@ -12,7 +11,6 @@ function ModuleEntryCard({
     <article className="card module-entry-card fade-up" style={{ "--delay": delay }}>
       <p className="eyebrow">{eyebrow}</p>
       <h3>{title}</h3>
-      <p>{description}</p>
       <div className="module-entry-links">
         {links.map((item) => (
           <Link key={item.to} className="module-link-chip" to={item.to}>

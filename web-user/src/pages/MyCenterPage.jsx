@@ -7,14 +7,12 @@ function MyCenterPage() {
       <section className="card page-banner fade-up">
         <p className="eyebrow">我的</p>
         <h1>个人中心</h1>
-        <p>查看领养、救助与反馈记录。</p>
       </section>
 
       <section className="module-entry-grid">
         <ModuleEntryCard
           eyebrow="领养"
           title="我的申请与送养"
-          description="统一管理领养申请、发布送养与申请处理。"
           links={[
             { label: "我的领养申请", to: "/adoption/applications" },
             { label: "我的送养", to: "/adoption/my-posts" }
@@ -24,7 +22,6 @@ function MyCenterPage() {
         <ModuleEntryCard
           eyebrow="救助"
           title="我的线索与处理进展"
-          description="查看线索状态，补充信息，跟进平台处理结果。"
           links={[
             { label: "我的救助线索", to: "/me/rescue/clues" },
             { label: "提交新线索", to: "/rescue/clues/new" }

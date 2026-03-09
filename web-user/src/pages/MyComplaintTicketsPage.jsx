@@ -53,9 +53,6 @@ function MyComplaintTicketsPage() {
       <section className="card page-banner">
         <p className="eyebrow">帮助与投诉</p>
         <h1>我的反馈记录</h1>
-        <p>
-          可按状态筛选反馈记录，并查看平台回复进度。<Link to="/support/complaints/new">去提交新反馈</Link>
-        </p>
       </section>
 
       <section className="card page-form-card">

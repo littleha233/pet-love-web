@@ -85,8 +85,7 @@ function RescueGuideDetailPage() {
         </article>
 
         <aside className="card detail-side">
-          <h3>下一步建议</h3>
-          <p>如果需要线下支持，建议优先联系同城救助资源。</p>
+          <h3>相关操作</h3>
           <div className="action-row">
             <Link
               className="primary-btn"

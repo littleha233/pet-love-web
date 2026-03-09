@@ -56,7 +56,6 @@ function MyRescueCluesPage() {
       <section className="card page-banner">
         <p className="eyebrow">我的线索</p>
         <h1>查看救助线索处理进度</h1>
-        <p>仅可查看本人提交的线索，状态会随平台处理进展持续更新。</p>
       </section>
 
       <section className="card page-form-card">

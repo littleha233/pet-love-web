@@ -185,7 +185,6 @@ function MobileLoginPage() {
         <aside className="card auth-login-intro">
           <p className="eyebrow">{isRegisterView ? "账号注册" : "账号登录"}</p>
           <h1>{isRegisterView ? "手机号快速注册" : "手机号快捷登录"}</h1>
-          <p>输入手机号并完成验证码校验即可使用。</p>
           <ul className="auth-login-tags">
             <li>短信登录</li>
             <li>自动注册</li>
@@ -260,7 +259,6 @@ function MobileLoginPage() {
               {loggingIn ? "处理中..." : isRegisterView ? "注册并登录" : "登录"}
             </button>
 
-            <p className="helper-text auth-security-tip">发送验证码前需通过图形校验，可降低脚本滥发风险。</p>
             {notice ? <p className="helper-text notice-text">{notice}</p> : null}
           </form>
         </section>

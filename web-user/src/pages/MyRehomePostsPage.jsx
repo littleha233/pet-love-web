@@ -65,7 +65,6 @@ function MyRehomePostsPage() {
       <section className="card page-banner">
         <p className="eyebrow">我的发布</p>
         <h1>查看帖子状态与处理进度</h1>
-        <p>可重新提交被驳回内容、关闭已发布帖子，并管理收到的领养申请。</p>
       </section>
 
       <section className="card page-form-card">

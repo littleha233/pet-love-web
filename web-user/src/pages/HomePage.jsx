@@ -15,7 +15,7 @@ const rescueFlowSteps = [
   "先确认人身与现场安全",
   "按场景指引做基础处置",
   "联系同城救助资源并记录进展",
-  "提交线索，便于平台后续跟进"
+  "提交线索并跟进处理"
 ];
 
 const supportPreviewItems = [
@@ -41,7 +41,6 @@ function HomePage() {
     <div className="page-stack">
       <Hero
         title="聚焦领养与救助，让每次行动都有结果"
-        subtitle="两条主线：帮宠物找到新家，和提供可执行的救助支持。"
         imageUrl="https://images.pexels.com/photos/4587994/pexels-photo-4587994.jpeg?auto=compress&cs=tinysrgb&w=1200"
         imageAlt="主人与宠物互动"
         primaryText="进入领养"
@@ -55,13 +54,11 @@ function HomePage() {
         <SectionHeader
           eyebrow="业务分发"
           title="先选业务线，再进入对应流程"
-          description="首页只做入口分发。"
         />
         <div className="module-entry-grid">
           <ModuleEntryCard
             eyebrow="领养中心"
             title="查看可领养，或发布送养"
-            description="统一管理申请与送养。"
             links={[
               { label: "查看可领养", to: "/adoption/list" },
               { label: "发布送养", to: "/adoption/post/new" },
@@ -73,7 +70,6 @@ function HomePage() {
           <ModuleEntryCard
             eyebrow="救助中心"
             title="先看指引，再找资源，必要时提线索"
-            description="从处置到跟进一条线完成。"
             links={[
               { label: "查看救助指引", to: "/rescue/guides" },
               { label: "查看救助资源", to: "/rescue/resources" },
@@ -90,7 +86,6 @@ function HomePage() {
         <SectionHeader
           eyebrow="流程说明"
           title="两条流程各自清晰"
-          description="按流程走，操作更稳。"
         />
         <div className="flow-explain-grid">
           <article className="card flow-explain-card fade-up">
@@ -115,25 +110,21 @@ function HomePage() {
       <section>
         <SectionHeader
           eyebrow="内容预览"
-          title="首页只预览，不在首页完成流程"
-          description="点击后进入对应模块。"
+          title="内容预览"
         />
         <div className="feature-preview-grid">
           <FeaturePreviewList
             title="最新领养信息"
-            description="近期更新优先展示。"
             items={adoptionPreviewItems}
             action={{ label: "查看全部领养信息", to: "/adoption/list" }}
           />
           <FeaturePreviewList
             title="救助快捷入口"
-            description="按场景快速进入。"
             items={rescueQuickLinks}
             action={{ label: "进入救助模块", to: "/rescue" }}
           />
           <FeaturePreviewList
             title="保障与反馈"
-            description="问题可追踪。"
             items={supportPreviewItems}
             action={{ label: "提交问题反馈", to: "/support/complaints/new" }}
           />
@@ -144,7 +135,6 @@ function HomePage() {
         <div className="trust-footer-header">
           <p className="eyebrow">平台保障</p>
           <h3>温暖治愈，也要专业可信</h3>
-          <p>每个问题都有处理闭环。</p>
         </div>
         <div className="trust-badge-row">
           {homepageTrustBadges.map((item) => (
